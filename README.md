@@ -33,3 +33,29 @@ $ docker run --rm \
 	softprops/lambda-rust:{tag}
 ```
 
+## Local Testing
+
+Once you've build a Rust lambda function artifact the `provided` runtime expects
+deployments of that artifact to be named **bootstrap**
+
+```sh
+$ mv target/lambda/release/{your-crate-name} target/lambda/release/bootstap
+```
+
+You can then invoke this bootstap executable with the lambda-ci provided docker image
+
+
+```sh
+# start a docker container replicating the "provided" lambda runtime
+# awaiting an event to be provided via stdin
+$ docker run \
+  -i -e DOCKER_LAMBDA_USE_STDIN=1 \
+  --rm \
+  -v \
+  "$PWD/target/lambda/release":/var/task \
+  lambci/lambda:provided
+
+# provide payload via stdin (typically a json blob)
+
+# Ctrl-D to yield control back to your function
+```
