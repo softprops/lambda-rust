@@ -16,7 +16,7 @@ You can also depend directly on `softprops/lambda-rust:latest` for the most rece
 
 ## 🤸 usage
 
-The default docker command will build a release version your rust application under `target/lambda/` to
+The default docker command will build a release version your rust application under `target/lambda/release` to
 isolate the lambda specific build artifacts from your localhost build artifacts.
 
 You will want to volume mount `/code` to the directory containing your cargo project.
@@ -32,3 +32,4 @@ $ docker run --rm \
 	-v ${HOME}/.cargo/git:/root/.cargo/git \
 	softprops/lambda-rust:{tag}
 ```
+
