@@ -10,6 +10,8 @@ and installs [rustup](https://rustup.rs/) and the *stable* rust toolchain.
 Tags for this docker follow the convention `softprops/lambda-rust:{version}-rust-{rust-stable-version}'
 Where rust-version is a stable version of rust.
 
+You can find a list of available docker tags [here](https://hub.docker.com/r/softprops/lambda-rust/)
+
 You can also depend directly on `softprops/lambda-rust:latest` for the most recently published version.
 
 ## 🤸 usage
