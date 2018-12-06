@@ -2,7 +2,7 @@
 
 ## 🤔 about
 
-This image extends [lambda ci python 3.6](https://github.com/lambci/docker-lambda#documentation) docker image, a faithful reproduction of the actual AWS python 3.6 🐍 lambda runtime environment,
+This image extends [lambda ci `provided`](https://github.com/lambci/docker-lambda#documentation) docker image, a faithful reproduction of the actual AWS provided lambda runtime environment,
 and installs [rustup](https://rustup.rs/) and the *stable* rust toolchain.
 
 ## 📦 install
@@ -28,6 +28,5 @@ $ docker run --rm \
 		-v ${PWD}:/code \
 		-v ${HOME}/.cargo/registry:/root/.cargo/registry \
 		-v ${HOME}/.cargo/git:/root/.cargo/git \
-		-e CARGO_FLAGS="--features lando/python3-sys" \
 		softprops/lambda-rust:{tag}
 ```
