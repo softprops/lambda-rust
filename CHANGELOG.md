@@ -1,6 +1,7 @@
-# 0.2.0-rust-1.30.1 (unreleased)
+# 0.2.0-rust-1.31.0 (unreleased)
 
 * Breaking change: move to now officially supported `provided` runtime
+* Upgrade to rust 1.13.0 default image for rust ( 2018 edition )
 
 # 0.1.*
 
