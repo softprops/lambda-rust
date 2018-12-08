@@ -36,24 +36,23 @@ $ docker run --rm \
 ## Local Testing
 
 Once you've build a Rust lambda function artifact the `provided` runtime expects
-deployments of that artifact to be named **bootstrap**
+deployments of that artifact to be named **bootstrap**. The lambda-rust docker image
+builds a zip file containing your binary files renamed to bootstrap
 
-```sh
-$ mv target/lambda/release/{your-crate-name} target/lambda/release/bootstap
-```
-
-You can then invoke this bootstap executable with the lambda-ci provided docker image
+You can invoke this bootstap executable with the lambda-ci provided docker image
 
 
 ```sh
 # start a docker container replicating the "provided" lambda runtime
 # awaiting an event to be provided via stdin
-$ docker run \
-  -i -e DOCKER_LAMBDA_USE_STDIN=1 \
-  --rm \
-  -v \
-  "$PWD/target/lambda/release":/var/task \
-  lambci/lambda:provided
+$ unzip \
+ target/lambda/release/{your-binary-name}.zip \
+ -d /tmp/lambda && \
+ docker run \
+    -i -e DOCKER_LAMBDA_USE_STDIN=1 \
+    --rm \
+    -v /tmp/lambda:/var/task \
+    lambci/lambda:provided
 
 # provide payload via stdin (typically a json blob)
 
