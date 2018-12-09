@@ -16,8 +16,8 @@ You can also depend directly on `softprops/lambda-rust:latest` for the most rece
 
 ## 🤸 usage
 
-The default docker command will build a release version your rust application under `target/lambda/release` to
-isolate the lambda specific build artifacts from your localhost build artifacts.
+The default docker entrypoint will build a release optimized version your rust artifact under `target/lambda/release` to
+isolate the lambda specific build artifacts from your host-local build artifacts.
 
 You will want to volume mount `/code` to the directory containing your cargo project.
 
@@ -25,22 +25,23 @@ You can pass additional flags to cargo by setting the `CARGO_FLAGS` docker env v
 
 A typical docker run might look like the following
 
+> 💡 the -v (volume mount) flags for `/root/.cargo/{registry,git}` are optional but when supplied, provides a much faster turn around when doing iterative development
+
 ```bash
 $ docker run --rm \
 	-v ${PWD}:/code \
 	-v ${HOME}/.cargo/registry:/root/.cargo/registry \
 	-v ${HOME}/.cargo/git:/root/.cargo/git \
-	softprops/lambda-rust:{tag}
+	softprops/lambda-rust
 ```
 
-## Local Testing
+## 🔬 local testing
 
 Once you've build a Rust lambda function artifact the `provided` runtime expects
-deployments of that artifact to be named **bootstrap**. The lambda-rust docker image
-builds a zip file containing your binary files renamed to bootstrap
+deployments of that artifact to be named "**bootstrap**". The lambda-rust docker image
+builds a zip file, named after the binary, containing your binary files renamed to bootstrap
 
-You can invoke this bootstap executable with the lambda-ci provided docker image
-
+You can invoke this bootstap executable with the lambda-ci provided docker image.
 
 ```sh
 # start a docker container replicating the "provided" lambda runtime
