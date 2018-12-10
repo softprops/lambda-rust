@@ -2,7 +2,7 @@
 
 ## 🤔 about
 
-This image extends [lambda ci `provided`](https://github.com/lambci/docker-lambda#documentation) builder docker image, a faithful reproduction of the actual AWS "**provided**" Lambda runtime environment,
+This docker image extends [lambda ci `provided`](https://github.com/lambci/docker-lambda#documentation) builder docker image, a faithful reproduction of the actual AWS "**provided**" Lambda runtime environment,
 and installs [rustup](https://rustup.rs/) and the *stable* rust toolchain.
 
 ## 📦 install
