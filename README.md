@@ -27,12 +27,12 @@ You can pass additional flags to `cargo`, the Rust build tool, by setting the `C
 
 A typical docker run might look like the following.
 
-```bash
+```sh
 $ docker run --rm \
-	-v ${PWD}:/code \
-	-v ${HOME}/.cargo/registry:/root/.cargo/registry \
-	-v ${HOME}/.cargo/git:/root/.cargo/git \
-	softprops/lambda-rust
+    -v ${PWD}:/code \
+    -v ${HOME}/.cargo/registry:/root/.cargo/registry \
+    -v ${HOME}/.cargo/git:/root/.cargo/git \
+    softprops/lambda-rust
 ```
 
 > 💡 The -v (volume mount) flags for `/root/.cargo/{registry,git}` are optional but when supplied, provides a much faster turn around when doing iterative development
