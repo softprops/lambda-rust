@@ -61,3 +61,5 @@ $ unzip \
 
 # Ctrl-D to yield control back to your function
 ```
+
+Doug Tangren (softprops) 2018
