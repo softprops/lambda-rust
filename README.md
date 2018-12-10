@@ -1,4 +1,4 @@
-# lambda rust docker builder 🐳 🦀
+# AWS Lambda [Rust](https://www.rust-lang.org/) docker builder 🐑 🐳 🦀
 
 ## 🤔 about
 
