@@ -42,7 +42,7 @@ a `BIN` environment variable set to the name of the binary to be build and packa
 
 ```sh
 $ docker run --rm \
-    -e BIN={your-binary-name}
+    -e BIN={your-binary-name} \
     -v ${PWD}:/code \
     -v ${HOME}/.cargo/registry:/root/.cargo/registry \
     -v ${HOME}/.cargo/git:/root/.cargo/git \
