@@ -1,3 +1,7 @@
+#  0.2.0-rust-1.31.2 (unreleased)
+
+* Upgrade to Rust `1.13.2`
+
 # 0.2.0-rust-1.31.1
 
 * Upgrade to Rust `1.13.1`
