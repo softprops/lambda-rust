@@ -1,3 +1,7 @@
+# 0.2.0-rust-1.31.1
+
+* Upgrade to Rust `1.13.1`
+
 # 0.2.0-rust-1.31.0
 
 * Breaking change: move to now officially supported `provided` runtime
