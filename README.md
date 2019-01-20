@@ -37,6 +37,18 @@ $ docker run --rm \
 
 > 💡 The -v (volume mount) flags for `/root/.cargo/{registry,git}` are optional but when supplied, provides a much faster turn around when doing iterative development
 
+If you are using Windows, the command above may need to be modified to include
+a `BIN` environment variable set to the name of the binary to be build and packaged
+
+```sh
+$ docker run --rm \
+    -e BIN={your-binary-name}
+    -v ${PWD}:/code \
+    -v ${HOME}/.cargo/registry:/root/.cargo/registry \
+    -v ${HOME}/.cargo/git:/root/.cargo/git \
+    softprops/lambda-rust
+```
+
 ## 🔬 local testing
 
 Once you've built a Rust lambda function artifact, the `provided` runtime expects

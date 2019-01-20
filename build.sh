@@ -2,7 +2,7 @@
 # build and pack a rust lambda library
 # https://aws.amazon.com/blogs/opensource/rust-runtime-for-aws-lambda/
 
-set -euo pipefail
+set -eo pipefail
 mkdir -p target/lambda
 export CARGO_TARGET_DIR=$PWD/target/lambda
 (
@@ -13,17 +13,28 @@ export CARGO_TARGET_DIR=$PWD/target/lambda
     . $HOME/.cargo/env
     cargo build ${CARGO_FLAGS:-} --release
 ) 1>&2
+
+function package() {
+    file="$1"
+    strip "$file"
+    rm "$file.zip" > 2&>/dev/null || true
+    # note: would use printf "@ $(basename $file)\n@=bootstrap" | zipnote -w "$file.zip"
+    # if not for https://bugs.launchpad.net/ubuntu/+source/zip/+bug/519611
+    mv "$file" bootstrap
+    zip "$file.zip" bootstrap
+    rm bootstrap
+}
+
 cd "$CARGO_TARGET_DIR"/release
 (
-    for file in $(
-      find -maxdepth 1 -executable -type f
-    ); do
-        strip "$file"
-        rm "$file.zip" > 2&>/dev/null || true
-        # note: would use printf "@ $(basename $file)\n@=bootstrap" | zipnote -w "$file.zip"
-        # if not for https://bugs.launchpad.net/ubuntu/+source/zip/+bug/519611
-        mv "$file" bootstrap
-        zip "$file.zip" bootstrap
-        rm bootstrap
-    done
+    if [ -z "$BIN" ]; then
+        for file in $(
+            find -maxdepth 1 -executable -type f
+        ); do
+            package "$file"
+        done
+    else
+        package "$BIN"
+    fi
+
 ) 1>&2
