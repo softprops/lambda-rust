@@ -10,13 +10,5 @@ branches:
 services:
   - docker
 
-matrix:
-  include:
-    - name: Linux Package
-    - name: OSX Package
-      os: osx
-    - name: Windows Package
-      os: windows
-
 script:
   make test
