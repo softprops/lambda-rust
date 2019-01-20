@@ -10,16 +10,5 @@ branches:
 services:
   - docker
 
-matrix:
-  include:
-  - name: Linux Package
-    script:
-      make build
-  - name: OSX Package
-    os: osx
-    script:
-      make build
-  - name: Windows Package
-    os: windows
-    script:
-      make build
+script:
+  make build
