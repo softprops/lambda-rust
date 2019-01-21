@@ -21,7 +21,7 @@ function assert_success() {
     then
         echo -e "👍  ${GREEN} $MESSAGE: success${NC}"
     else
-        echo -e "👎  ${RED}${MESSAGE}: fail${NC}"
+        echo -e "👎  ${RED} ${MESSAGE}: fail${NC}"
         ((++FAILED))
     fi
 }
@@ -30,11 +30,11 @@ function end_tests() {
     if ((FAILED > 0))
     then
         echo
-        echo -e "💀  ${RED}Run ${TESTS} tests, ${FAILED} failed.${NC}"
+        echo -e "💀  ${RED} Ran ${TESTS} tests, ${FAILED} failed.${NC}"
         exit $FAILED
     else
         echo
-        echo -e "👌  ${GREEN}${TESTS} tests passed.${NC}"
+        echo -e "👌  ${GREEN} ${TESTS} tests passed.${NC}"
         exit 0
     fi
 }
