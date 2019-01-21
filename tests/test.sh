@@ -46,20 +46,35 @@ DIST=$(cd $HERE/..; echo $PWD)
 
 cd ${HERE}/test-func
 
-function package() {
+function package_bin() {
+     rm target/lambda/release/test-func.zip > /dev/null 2>&1 && \
     docker run --rm \
     -e BIN=test-func \
     -v ${PWD}:/code \
     -v ${HOME}/.cargo/registry:/root/.cargo/registry \
     -v ${HOME}/.cargo/git:/root/.cargo/git \
-    softprops/lambda-rust
+    softprops/lambda-rust && \
+    ls target/lambda/release/test-func.zip > /dev/null 2>&1
 }
 
-# integration test `package` command
-assert_success "it packages" package
+function package_all() {
+    rm target/lambda/release/test-func.zip > /dev/null 2>&1 && \
+    docker run --rm \
+    -v ${PWD}:/code \
+    -v ${HOME}/.cargo/registry:/root/.cargo/registry \
+    -v ${HOME}/.cargo/git:/root/.cargo/git \
+    softprops/lambda-rust && \
+    ls target/lambda/release/test-func.zip > /dev/null 2>&1
+}
+
+# package tests
+assert_success "it packages single bin" package_bin
+
+assert_success "it packages all bins" package_all
 
 # verify packaged artifact by invoking it using the lambdaci "provided" docker image
 rm test-out.log > /dev/null 2>&1
+rm -rf /tmp/lambda > /dev/null 2>&1
 unzip -o  \
     target/lambda/release/test-func.zip \
     -d /tmp/lambda > /dev/null 2>&1 && \
