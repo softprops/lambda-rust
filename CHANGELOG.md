@@ -5,12 +5,12 @@
 
 # 0.2.0-rust-1.31.1
 
-* Upgrade to Rust [`1.13.1`](https://blog.rust-lang.org/2018/12/20/Rust-1.31.1.html)
+* Upgrade to Rust [`1.31.1`](https://blog.rust-lang.org/2018/12/20/Rust-1.31.1.html)
 
 # 0.2.0-rust-1.31.0
 
 * Breaking change: move to now officially supported `provided` runtime
-* Upgrade to Rust `1.13.0`, enabling the first stable version `2018 edition` Rust.
+* Upgrade to Rust `1.31.0`, enabling the first stable version `2018 edition` Rust.
 
 # 0.1.*
 
