@@ -10,7 +10,7 @@ and installs [rustup](https://rustup.rs/) and the *stable* rust toolchain.
 Tags for this docker image follow the naming convention `softprops/lambda-rust:{version}-rust-{rust-stable-version}`
 where `{rust-stable-version}` is a stable version of rust.
 
-You can find a list of available docker tags [here](https://hub.docker.com/r/softprops/lambda-rust/)
+You can find a list of available docker tags [here](https://hub.docker.com/r/softprops/lambda-rust/tags)
 
 > 💡 If you don't find the version you're looking for, please [open a new github issue](https://github.com/softprops/lambda-rust/issues/new?title=I%27m%20looking%20for%20version%20xxx) to publish one
 
