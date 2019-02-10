@@ -78,7 +78,7 @@ assert_success "it packages all bins" package_all
 rm test-out.log > /dev/null 2>&1
 rm -rf /tmp/lambda > /dev/null 2>&1
 unzip -o  \
-    target/lambda/release/test-func.zip \
+    target/lambda/release/bootstrap.zip \
     -d /tmp/lambda > /dev/null 2>&1 && \
   docker run \
     -i -e DOCKER_LAMBDA_USE_STDIN=1 \
