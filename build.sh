@@ -29,8 +29,8 @@ function package() {
 
 cd "$CARGO_TARGET_DIR"/release
 (
-    export -f package
     if [ -z "$BIN" ]; then
+        export -f package
         find -maxdepth 1 -executable -type f -exec bash -c 'package "$0"' {} \;
     else
         package "$BIN"
