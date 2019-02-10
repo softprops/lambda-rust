@@ -1,15 +1,16 @@
 #  0.2.0-rust-1.32.0
 
 * Upgrade to Rust [`1.32.0`](https://blog.rust-lang.org/2019/01/17/Rust-1.32.0.html)
+* Add support to provide an explicit binary to package though `BIN` env variable
 
 # 0.2.0-rust-1.31.1
 
-* Upgrade to Rust [`1.13.1`](https://blog.rust-lang.org/2018/12/20/Rust-1.31.1.html)
+* Upgrade to Rust [`1.31.1`](https://blog.rust-lang.org/2018/12/20/Rust-1.31.1.html)
 
 # 0.2.0-rust-1.31.0
 
 * Breaking change: move to now officially supported `provided` runtime
-* Upgrade to Rust `1.13.0`, enabling the first stable version `2018 edition` Rust.
+* Upgrade to Rust `1.31.0`, enabling the first stable version `2018 edition` Rust.
 
 # 0.1.*
 
