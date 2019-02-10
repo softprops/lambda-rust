@@ -28,11 +28,7 @@ function package() {
 cd "$CARGO_TARGET_DIR"/release
 (
     if [ -z "$BIN" ]; then
-        for file in $(
-            find -maxdepth 1 -executable -type f
-        ); do
-            package "$file"
-        done
+        find -maxdepth 1 -executable -type f -exec package {} \;
     else
         package "$BIN"
     fi
