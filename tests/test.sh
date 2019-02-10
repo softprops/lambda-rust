@@ -48,7 +48,7 @@ cd ${HERE}/test-func
 
 # test packaing with a single binary
 function package_bin() {
-    rm -rf target/lambda/release/ > /dev/null 2>&1
+    rm -rf target/lambda/release > /dev/null 2>&1
     docker run --rm \
     -e BIN="$1" \
     -v ${PWD}:/code \
@@ -60,7 +60,7 @@ function package_bin() {
 
 # test packaging all binaries
 function package_all() {
-    rm -rf target/lambda/release/ > /dev/null 2>&1
+    rm -rf target/lambda/release > /dev/null 2>&1
     docker run --rm \
     -v ${PWD}:/code \
     -v ${HOME}/.cargo/registry:/root/.cargo/registry \
