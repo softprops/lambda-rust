@@ -46,29 +46,31 @@ DIST=$(cd $HERE/..; echo $PWD)
 
 cd ${HERE}/test-func
 
+# test packaing with a single binary
 function package_bin() {
-    rm target/lambda/release/ > /dev/null 2>&1
+    rm -rf target/lambda/release > /dev/null 2>&1
     docker run --rm \
-    -e BIN=test-func \
+    -e BIN="$1" \
     -v ${PWD}:/code \
     -v ${HOME}/.cargo/registry:/root/.cargo/registry \
     -v ${HOME}/.cargo/git:/root/.cargo/git \
     softprops/lambda-rust && \
-    ls target/lambda/release/test-func.zip > /dev/null 2>&1
+    ls target/lambda/release/bootstrap.zip > /dev/null 2>&1
 }
 
+# test packaging all binaries
 function package_all() {
-    rm target/lambda/release/ > /dev/null 2>&1
+    rm -rf target/lambda/release > /dev/null 2>&1
     docker run --rm \
     -v ${PWD}:/code \
     -v ${HOME}/.cargo/registry:/root/.cargo/registry \
     -v ${HOME}/.cargo/git:/root/.cargo/git \
     softprops/lambda-rust && \
-    ls target/lambda/release/test-func.zip > /dev/null 2>&1
+    ls target/lambda/release/bootstrap.zip > /dev/null 2>&1
 }
 
 # package tests
-assert_success "it packages single bin" package_bin
+assert_success "it packages single bin" package_bin bootstrap
 
 assert_success "it packages all bins" package_all
 
@@ -76,7 +78,7 @@ assert_success "it packages all bins" package_all
 rm test-out.log > /dev/null 2>&1
 rm -rf /tmp/lambda > /dev/null 2>&1
 unzip -o  \
-    target/lambda/release/test-func.zip \
+    target/lambda/release/bootstrap.zip \
     -d /tmp/lambda > /dev/null 2>&1 && \
   docker run \
     -i -e DOCKER_LAMBDA_USE_STDIN=1 \
