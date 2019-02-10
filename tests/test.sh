@@ -47,7 +47,7 @@ DIST=$(cd $HERE/..; echo $PWD)
 cd ${HERE}/test-func
 
 function package_bin() {
-    rm target/lambda/release/test-func.zip > /dev/null 2>&1
+    rm target/lambda/release/ > /dev/null 2>&1
     docker run --rm \
     -e BIN=test-func \
     -v ${PWD}:/code \
@@ -58,7 +58,7 @@ function package_bin() {
 }
 
 function package_all() {
-    rm target/lambda/release/test-func.zip > /dev/null 2>&1
+    rm target/lambda/release/ > /dev/null 2>&1
     docker run --rm \
     -v ${PWD}:/code \
     -v ${HOME}/.cargo/registry:/root/.cargo/registry \
