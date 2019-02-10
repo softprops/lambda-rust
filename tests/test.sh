@@ -48,25 +48,25 @@ cd ${HERE}/test-func
 
 # test packaing with a single binary
 function package_bin() {
-    rm target/lambda/release/ > /dev/null 2>&1
+    rm -rf target/lambda/release/ > /dev/null 2>&1
     docker run --rm \
     -e BIN="$1" \
     -v ${PWD}:/code \
     -v ${HOME}/.cargo/registry:/root/.cargo/registry \
     -v ${HOME}/.cargo/git:/root/.cargo/git \
     softprops/lambda-rust && \
-    ls target/lambda/release/test-func.zip > /dev/null 2>&1
+    ls target/lambda/release/bootstrap.zip > /dev/null 2>&1
 }
 
 # test packaging all binaries
 function package_all() {
-    rm target/lambda/release/ > /dev/null 2>&1
+    rm -rf target/lambda/release/ > /dev/null 2>&1
     docker run --rm \
     -v ${PWD}:/code \
     -v ${HOME}/.cargo/registry:/root/.cargo/registry \
     -v ${HOME}/.cargo/git:/root/.cargo/git \
     softprops/lambda-rust && \
-    ls target/lambda/release/test-func.zip > /dev/null 2>&1
+    ls target/lambda/release/bootstrap.zip > /dev/null 2>&1
 }
 
 # package tests
