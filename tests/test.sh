@@ -46,10 +46,11 @@ DIST=$(cd $HERE/..; echo $PWD)
 
 cd ${HERE}/test-func
 
+# test packaing with a single binary
 function package_bin() {
     rm target/lambda/release/ > /dev/null 2>&1
     docker run --rm \
-    -e BIN=test-func \
+    -e BIN="$1" \
     -v ${PWD}:/code \
     -v ${HOME}/.cargo/registry:/root/.cargo/registry \
     -v ${HOME}/.cargo/git:/root/.cargo/git \
@@ -57,6 +58,7 @@ function package_bin() {
     ls target/lambda/release/test-func.zip > /dev/null 2>&1
 }
 
+# test packaging all binaries
 function package_all() {
     rm target/lambda/release/ > /dev/null 2>&1
     docker run --rm \
@@ -68,7 +70,7 @@ function package_all() {
 }
 
 # package tests
-assert_success "it packages single bin" package_bin
+assert_success "it packages single bin" package_bin bootstrap
 
 assert_success "it packages all bins" package_all
 

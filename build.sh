@@ -20,15 +20,18 @@ function package() {
     rm "$file.zip" > 2&>/dev/null || true
     # note: would use printf "@ $(basename $file)\n@=bootstrap" | zipnote -w "$file.zip"
     # if not for https://bugs.launchpad.net/ubuntu/+source/zip/+bug/519611
-    mv "$file" bootstrap
+    if [ "$file" != ./bootstrap ] && [ "$file" != bootstrap ]; then
+        mv "${file}" bootstrap
+    fi
     zip "$file.zip" bootstrap
     rm bootstrap
 }
 
 cd "$CARGO_TARGET_DIR"/release
 (
+    export -f package
     if [ -z "$BIN" ]; then
-        find -maxdepth 1 -executable -type f -exec package {} \;
+        find -maxdepth 1 -executable -type f -exec bash -c 'package "$0"' {} \;
     else
         package "$BIN"
     fi
