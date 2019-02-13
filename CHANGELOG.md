@@ -1,3 +1,9 @@
+# 0.2.1-rust-1.32.0 (unreleased)
+
+* Added support for `BIN` env variable for naming precisely the bin to package
+* Handle case where Cargo bin is explicitly named `bootstrap`
+* Introduce integration testing
+
 #  0.2.0-rust-1.32.0
 
 * Upgrade to Rust [`1.32.0`](https://blog.rust-lang.org/2019/01/17/Rust-1.32.0.html)
