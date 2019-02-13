@@ -13,3 +13,11 @@ build:
 
 test: build
 	@tests/test.sh
+
+debug: build
+	@docker run --rm -it \
+		-v ${PWD}:/code \
+		-v ${HOME}/.cargo/registry:/root/.cargo/registry \
+		-v ${HOME}/.cargo/git:/root/.cargo/git  \
+		--entrypoint=/bin/bash \
+		$(REPO)
