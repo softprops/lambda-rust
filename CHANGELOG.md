@@ -1,3 +1,7 @@
+# 0.2.1-rust-1.33.0 (unreleased)
+
+* Upgrade to Rust [`1.33.0`](https://blog.rust-lang.org/2019/02/28/Rust-1.33.0.html)
+
 # 0.2.1-rust-1.32.0
 
 * Added support for `BIN` env variable for naming precisely the bin to package
