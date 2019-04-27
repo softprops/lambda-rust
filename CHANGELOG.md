@@ -1,4 +1,12 @@
-# 0.2.1-rust-1.33.0 (unreleased)
+# 0.2.1-rust-1.34.1 (unreleased)
+
+* Upgrade to Rust [`1.34.1`](https://blog.rust-lang.org/2019/04/25/Rust-1.34.1.html)
+
+# 0.2.1-rust-1.34.0
+
+* Upgrade to Rust [`1.34.0`](https://blog.rust-lang.org/2019/04/11/Rust-1.34.0.html)
+
+# 0.2.1-rust-1.33.0
 
 * Upgrade to Rust [`1.33.0`](https://blog.rust-lang.org/2019/02/28/Rust-1.33.0.html)
 
