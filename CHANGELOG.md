@@ -1,4 +1,4 @@
-# 0.2.1-rust-1.34.1 (unreleased)
+# 0.2.1-rust-1.34.1
 
 * Upgrade to Rust [`1.34.1`](https://blog.rust-lang.org/2019/04/25/Rust-1.34.1.html)
 
