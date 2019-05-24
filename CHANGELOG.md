@@ -1,6 +1,10 @@
+# 0.2.1-rust-1.35.0
+
+* Upgrade to Rust [`1.35.0`](https://blog.rust-lang.org/2019/05/23/Rust-1.35.0.html)
+
 # 0.2.1-rust-1.34.2
 
-* Upgrade to Rust [`1.34.2`](https://blog.rust-lang.org/2019/05/14/Rust-1.34.2.html
+* Upgrade to Rust [`1.34.2`](https://blog.rust-lang.org/2019/05/14/Rust-1.34.2.html)
 
 # 0.2.1-rust-1.34.1
 
