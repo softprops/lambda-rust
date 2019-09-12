@@ -29,9 +29,12 @@ function package() {
 
 cd "$CARGO_TARGET_DIR"/release
 (
+    . $HOME/.cargo/env
     if [ -z "$BIN" ]; then
-        export -f package
-        find -maxdepth 1 -executable -type f -exec bash -c 'package "$0"' {} \;
+        IFS=$'\n'
+        for executable in $(cargo read-manifest | jq -r '.targets[] | select(.kind[] | contains("bin")) | .name'); do
+          package "$executable"
+        done
     else
         package "$BIN"
     fi
