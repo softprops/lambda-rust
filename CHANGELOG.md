@@ -1,3 +1,7 @@
+# 0.2.2-rust-1.37.0
+
+* Improve logic for selecting binaries to include in deployment zip, especially on Windows
+
 # 0.2.1-rust-1.37.0
 
 * Upgrade to Rust [`1.37.0`](https://blog.rust-lang.org/2019/08/15/Rust-1.37.0.html)
