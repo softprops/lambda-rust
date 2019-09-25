@@ -4,7 +4,7 @@
 
 set -eo pipefail
 mkdir -p target/lambda
-PROFILE=${PROFILE:-release}
+export PROFILE=${PROFILE:-release}
 export CARGO_TARGET_DIR=$PWD/target/lambda
 (
     if [[ $# -gt 0 ]]; then
