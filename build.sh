@@ -7,7 +7,7 @@ mkdir -p target/lambda
 export PROFILE=${PROFILE:-release}
 # cargo uses different names for target
 # of its build profiles
-if [[ "${PROFILE}" == "release" ]];
+if [[ "${PROFILE}" == "release" ]]; then
     TARGET_PROFILE="${PROFILE}"
 else
     TARGET_PROFILE="debug"
