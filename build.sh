@@ -12,7 +12,13 @@ export CARGO_TARGET_DIR=$PWD/target/lambda
     fi
     # source cargo
     . $HOME/.cargo/env
-    cargo build ${CARGO_FLAGS:-} --${PROFILE}
+    # cargo only supports --release flag for release
+    # profiles. dev is implicit
+    if [ "${PROFILE}" == "release" ]; then
+        cargo build ${CARGO_FLAGS:-} --${PROFILE}
+    else
+        cargo build ${CARGO_FLAGS:-}
+    fi
 ) 1>&2
 
 function package() {
