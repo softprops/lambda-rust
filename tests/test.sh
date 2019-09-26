@@ -69,8 +69,22 @@ function package_all() {
     ls target/lambda/release/bootstrap.zip > /dev/null 2>&1
 }
 
+# test packaging with PROFILE=dev
+function package_all_dev_profile() {
+    rm -rf target/lambda/debug > /dev/null 2>&1
+    docker run --rm \
+    -e PROFILE=dev \
+    -v ${PWD}:/code \
+    -v ${HOME}/.cargo/registry:/root/.cargo/registry \
+    -v ${HOME}/.cargo/git:/root/.cargo/git \
+    softprops/lambda-rust && \
+    ls target/lambda/debug/bootstrap.zip > /dev/null 2>&1
+}
+
 # package tests
 assert_success "it packages single bin" package_bin bootstrap
+
+assert_success "it packages all bins with dev profile" package_all_dev_profile
 
 assert_success "it packages all bins" package_all
 

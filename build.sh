@@ -4,6 +4,14 @@
 
 set -eo pipefail
 mkdir -p target/lambda
+export PROFILE=${PROFILE:-release}
+# cargo uses different names for target
+# of its build profiles
+if [[ "${PROFILE}" == "release" ]]; then
+    TARGET_PROFILE="${PROFILE}"
+else
+    TARGET_PROFILE="debug"
+fi
 export CARGO_TARGET_DIR=$PWD/target/lambda
 (
     if [[ $# -gt 0 ]]; then
@@ -11,7 +19,13 @@ export CARGO_TARGET_DIR=$PWD/target/lambda
     fi
     # source cargo
     . $HOME/.cargo/env
-    cargo build ${CARGO_FLAGS:-} --release
+    # cargo only supports --release flag for release
+    # profiles. dev is implicit
+    if [ "${PROFILE}" == "release" ]; then
+        cargo build ${CARGO_FLAGS:-} --${PROFILE}
+    else
+        cargo build ${CARGO_FLAGS:-}
+    fi
 ) 1>&2
 
 function package() {
@@ -27,7 +41,7 @@ function package() {
     rm bootstrap
 }
 
-cd "$CARGO_TARGET_DIR"/release
+cd "${CARGO_TARGET_DIR}/${TARGET_PROFILE}"
 (
     . $HOME/.cargo/env
     if [ -z "$BIN" ]; then
