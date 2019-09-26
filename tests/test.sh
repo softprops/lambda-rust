@@ -84,7 +84,7 @@ function package_all_dev_profile() {
 # package tests
 assert_success "it packages single bin" package_bin bootstrap
 
-assert_success "it packaging all bins with dev profile" package_all_dev_profile
+assert_success "it packages all bins with dev profile" package_all_dev_profile
 
 assert_success "it packages all bins" package_all
 
