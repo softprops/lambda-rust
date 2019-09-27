@@ -1,3 +1,9 @@
+# 0.2.3-rust-1.38.0
+
+* Upgrade to Rust [`1.38.0`](https://blog.rust-lang.org/2019/09/26/Rust-1.38.0.html)
+* You can generate debug artifacts with adding `-e PROFILE=dev` to your docker runs
+*
+
 # 0.2.2-rust-1.37.0
 
 * Improve logic for selecting binaries to include in deployment zip, especially on Windows
