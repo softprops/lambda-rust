@@ -1,4 +1,5 @@
-# AWS Lambda [Rust](https://www.rust-lang.org/) docker builder 🐑 🐳 🦀 [![Build Status](https://travis-ci.org/softprops/lambda-rust.svg?branch=master)](https://travis-ci.org/softprops/lambda-rust)
+# AWS Lambda [Rust](https://www.rust-lang.org/) docker builder 🐑 🐳 🦀 [![Build Status](https://github.com/softprops/lambda-rust/workflows/Main/badge.svg)](https://github.com/softprops/lambda-rust/actions)
+
 
 ## 🤔 about
 

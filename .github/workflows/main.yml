@@ -9,6 +9,17 @@ jobs:
       - uses: actions/checkout@v1
       - name: Test
         run: make test
+  publish-docs:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Update Docker hub metadata
+        uses: docker://mpepping/docker-hub-metadata-github-action
+        env:
+          IMAGE: ${{ github.repository }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   publish:
     needs: [test]
     runs-on: ubuntu-latest
