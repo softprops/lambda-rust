@@ -28,13 +28,9 @@ jobs:
       - name: Build
         shell: bash
         run: make build
-      - name: Publish Auth
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: actions/docker/login@master
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       - name: Publish
         if: startsWith(github.ref, 'refs/tags/')
         shell: bash
-        run: make publish
+        run: |
+          echo "${{ secrets.DOCKER_PASSWORD }} | docker login -u "${{ secrets.DOCKER_PASSWORD }}" --password-stdin
+          make publish
