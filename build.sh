@@ -30,12 +30,17 @@ export CARGO_TARGET_DIR=$PWD/target/lambda
 
 function package() {
     file="$1"
-    strip "$file"
+    if [[ "${PROFILE}" == "release" ]]; then
+        objcopy --only-keep-debug "$file" "$file.debug"
+        objcopy --strip-debug --strip-unneeded "$file"
+        objcopy --add-gnu-debuglink="$file.debug" "$file"
+    fi
     rm "$file.zip" > 2&>/dev/null || true
     # note: would use printf "@ $(basename $file)\n@=bootstrap" | zipnote -w "$file.zip"
     # if not for https://bugs.launchpad.net/ubuntu/+source/zip/+bug/519611
     if [ "$file" != ./bootstrap ] && [ "$file" != bootstrap ]; then
         mv "${file}" bootstrap
+        mv "${file}.debug" bootstrap.debug > 2&>/dev/null || true
     fi
     zip "$file.zip" bootstrap
     rm bootstrap
