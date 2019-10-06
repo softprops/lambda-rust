@@ -1,6 +1,8 @@
 # 0.2.4-rust-1.38.0
 
 * Fixed regression from previous release cargo workspaces we failing to resolve binary names
+* `dev` profile builds are no longer run though `strip` which increases their binary size but retain their debug information
+* `release` profile builds (the default) still have debug information stripped but produce a file named `{your-binary-name}.debug` which final release binary contains a debug link to.
 
 # 0.2.3-rust-1.38.0
 
