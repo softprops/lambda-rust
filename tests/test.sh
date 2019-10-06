@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-source bashtest.sh
-
 # Directory of the integration test
 HERE=$(dirname $0)
 # Root directory of the repository
 DIST=$(cd $HERE/..; echo $PWD)
+
+source ${HERE}/bashtest.sh
 
 # test packaing with a single binary
 function package_bin() {
