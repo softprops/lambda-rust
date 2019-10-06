@@ -46,7 +46,7 @@ cd "${CARGO_TARGET_DIR}/${TARGET_PROFILE}"
     . $HOME/.cargo/env
     if [ -z "$BIN" ]; then
         IFS=$'\n'
-        for executable in $(cargo read-manifest | jq -r '.targets[] | select(.kind[] | contains("bin")) | .name'); do
+        for executable in $(cargo read-manifest | jq -r '.packages[] | .targets[] | select(.kind[] | contains("bin")) | .name'); do
           package "$executable"
         done
     else
