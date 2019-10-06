@@ -42,7 +42,7 @@ function package_all_dev_profile() {
     ls target/lambda/debug/bootstrap.zip > /dev/null 2>&1
 }
 
-for project in test-fun test-multi-func; do
+for project in test-func test-multi-func; do
     cd ${HERE}/${project}
 
     # package tests
