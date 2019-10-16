@@ -8,7 +8,7 @@ DIST=$(cd "$HERE"/..; pwd)
 source "${HERE}"/bashtest.sh
 
 # test packaing with a single binary
-function package_bin() {
+package_bin() {
     rm -rf target/lambda/release > /dev/null 2>&1
     docker run --rm \
     -e BIN="$1" \
@@ -20,7 +20,7 @@ function package_bin() {
 }
 
 # test packaging all binaries
-function package_all() {
+package_all() {
     rm -rf target/lambda/release > /dev/null 2>&1
     docker run --rm \
     -v "${PWD}":/code \
@@ -31,7 +31,7 @@ function package_all() {
 }
 
 # test packaging with PROFILE=dev
-function package_all_dev_profile() {
+package_all_dev_profile() {
     rm -rf target/lambda/debug > /dev/null 2>&1
     docker run --rm \
     -e PROFILE=dev \
@@ -46,7 +46,11 @@ for project in test-func test-multi-func; do
     cd "${HERE}"/"${project}"
 
     # package tests
-    assert_success "it packages single bin" package_bin bootstrap
+    if [[ "$project" == test-func ]]; then
+        assert_success "it packages single bin" package_bin bootstrap
+    else
+        assert_success "it packages single bin" package_bin bootstrap
+    fi
 
     assert_success "it packages all bins with dev profile" package_all_dev_profile
 
