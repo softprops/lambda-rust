@@ -3,18 +3,18 @@
 # Directory of the integration test
 HERE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # Root directory of the repository
-DIST=$(cd $HERE/..; echo $PWD)
+DIST=$(cd "$HERE"/..; pwd)
 
-source ${HERE}/bashtest.sh
+source "${HERE}"/bashtest.sh
 
 # test packaing with a single binary
 function package_bin() {
     rm -rf target/lambda/release > /dev/null 2>&1
     docker run --rm \
     -e BIN="$1" \
-    -v ${PWD}:/code \
-    -v ${HOME}/.cargo/registry:/root/.cargo/registry \
-    -v ${HOME}/.cargo/git:/root/.cargo/git \
+    -v "${PWD}":/code \
+    -v "${HOME}"/.cargo/registry:/root/.cargo/registry \
+    -v "${HOME}"/.cargo/git:/root/.cargo/git \
     softprops/lambda-rust && \
     ls target/lambda/release/bootstrap.zip > /dev/null 2>&1
 }
@@ -23,9 +23,9 @@ function package_bin() {
 function package_all() {
     rm -rf target/lambda/release > /dev/null 2>&1
     docker run --rm \
-    -v ${PWD}:/code \
-    -v ${HOME}/.cargo/registry:/root/.cargo/registry \
-    -v ${HOME}/.cargo/git:/root/.cargo/git \
+    -v "${PWD}":/code \
+    -v "${HOME}"/.cargo/registry:/root/.cargo/registry \
+    -v "${HOME}"/.cargo/git:/root/.cargo/git \
     softprops/lambda-rust && \
     ls target/lambda/release/bootstrap.zip > /dev/null 2>&1
 }
@@ -35,15 +35,15 @@ function package_all_dev_profile() {
     rm -rf target/lambda/debug > /dev/null 2>&1
     docker run --rm \
     -e PROFILE=dev \
-    -v ${PWD}:/code \
-    -v ${HOME}/.cargo/registry:/root/.cargo/registry \
-    -v ${HOME}/.cargo/git:/root/.cargo/git \
+    -v "${PWD}":/code \
+    -v "${HOME}"/.cargo/registry:/root/.cargo/registry \
+    -v "${HOME}"/.cargo/git:/root/.cargo/git \
     softprops/lambda-rust && \
     ls target/lambda/debug/bootstrap.zip > /dev/null 2>&1
 }
 
 for project in test-func test-multi-func; do
-    cd ${HERE}/${project}
+    cd "${HERE}"/"${project}"
 
     # package tests
     assert_success "it packages single bin" package_bin bootstrap
