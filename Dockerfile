@@ -2,7 +2,8 @@
 FROM lambci/lambda:build-provided
 ARG RUST_VERSION
 RUN yum install -y jq
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain $RUST_VERSION
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
+ | sh -s -- -y --profile minimal --default-toolchain $RUST_VERSION
 ADD build.sh /usr/local/bin/
 VOLUME ["/code"]
 WORKDIR /code

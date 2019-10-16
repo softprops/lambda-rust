@@ -1,3 +1,7 @@
+# 0.2.5-rust-1.38.0
+
+* reduced total size of docker image by **~277MB** leveraging new [rustup `minimal` profile](https://blog.rust-lang.org/2019/10/15/Rustup-1.20.0.html)
+
 # 0.2.4-rust-1.38.0
 
 * Fixed regression from previous release cargo workspaces we failing to resolve binary names
