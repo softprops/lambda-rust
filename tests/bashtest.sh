@@ -13,7 +13,7 @@ FAILED=0
 function assert_success() {
     MESSAGE="$1"
     shift
-    COMMAND="$*"
+    COMMAND="$@"
 
     ((++TESTS))
 
