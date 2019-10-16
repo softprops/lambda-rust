@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Directory of the integration test
-HERE=$(dirname $0)
+HERE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # Root directory of the repository
 DIST=$(cd $HERE/..; echo $PWD)
 
