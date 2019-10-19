@@ -10,7 +10,7 @@ TESTS=0
 FAILED=0
 
 # Verify that a command succeeds
-assert_success() {
+assert() {
     MESSAGE="$1"
     shift
     COMMAND="$@"

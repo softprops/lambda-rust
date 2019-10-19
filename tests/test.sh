@@ -16,7 +16,7 @@ package_bin() {
     -v "${HOME}"/.cargo/registry:/root/.cargo/registry \
     -v "${HOME}"/.cargo/git:/root/.cargo/git \
     softprops/lambda-rust && \
-    ls target/lambda/release/bootstrap.zip > /dev/null 2>&1
+    ls target/lambda/release/"$1".zip > /dev/null 2>&1
 }
 
 # test packaging all binaries
@@ -32,35 +32,39 @@ package_all() {
 
 # test packaging with PROFILE=dev
 package_all_dev_profile() {
-    rm -rf target/lambda/debug > /dev/null 2>&1
+    #rm -rf target/lambda/debug > /dev/null 2>&1
     docker run --rm \
     -e PROFILE=dev \
     -v "${PWD}":/code \
     -v "${HOME}"/.cargo/registry:/root/.cargo/registry \
     -v "${HOME}"/.cargo/git:/root/.cargo/git \
     softprops/lambda-rust && \
+    ls -al target/lambda/debug && \
     ls target/lambda/debug/bootstrap.zip > /dev/null 2>&1
 }
 
-for project in test-func test-multi-func; do
+for project in test-multi-func; do
     cd "${HERE}"/"${project}"
+    echo "👩‍🔬 Running tests for $project"
 
-    # package tests
     if [[ "$project" == test-func ]]; then
-        assert_success "it packages single bin" package_bin bootstrap
+        bin_name=boostrap
     else
-        assert_success "it packages single bin" package_bin bootstrap
+        bin_name=test-func
     fi
 
-    assert_success "it packages all bins with dev profile" package_all_dev_profile
+    # package tests
+    assert "it packages single bins" package_bin "${bin_name}"
 
-    assert_success "it packages all bins" package_all
+    assert "it packages all bins with dev profile" package_all_dev_profile
+
+    assert "it packages all bins" package_all
 
     # verify packaged artifact by invoking it using the lambdaci "provided" docker image
     rm test-out.log > /dev/null 2>&1
     rm -rf /tmp/lambda > /dev/null 2>&1
     unzip -o  \
-        target/lambda/release/bootstrap.zip \
+        target/lambda/release/"${bin_name}".zip \
         -d /tmp/lambda > /dev/null 2>&1 && \
     docker run \
         -i -e DOCKER_LAMBDA_USE_STDIN=1 \
@@ -68,7 +72,7 @@ for project in test-func test-multi-func; do
         -v /tmp/lambda:/var/task \
         lambci/lambda:provided < test-event.json | grep -v RequestId | grep -v '^\W*$' > test-out.log
 
-    assert_success "when invoked, it produces expected output" diff test-event.json test-out.log
+    assert "when invoked, it produces expected output" diff test-event.json test-out.log
 done
 
 end_tests
