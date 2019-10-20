@@ -10,7 +10,7 @@ TESTS=0
 FAILED=0
 
 # Verify that a command succeeds
-function assert_success() {
+assert() {
     MESSAGE="$1"
     shift
     COMMAND="$@"
@@ -26,7 +26,7 @@ function assert_success() {
     fi
 }
 
-function end_tests() {
+end_tests() {
     if ((FAILED > 0))
     then
         echo
