@@ -21,7 +21,7 @@ package_bin() {
 
 # test packaging all binaries
 package_all() {
-   rm -rf target/lambda/release > /dev/null 2>&1
+    rm -rf target/lambda/release > /dev/null 2>&1
     docker run --rm \
     -v "${PWD}":/code \
     -v "${HOME}"/.cargo/registry:/root/.cargo/registry \
@@ -47,7 +47,7 @@ for project in test-func test-multi-func; do
     echo "👩‍🔬 Running tests for $project"
 
     if [[ "$project" == test-func ]]; then
-        bin_name=boostrap
+        bin_name=bootstrap
     else
         bin_name=test-func
     fi
