@@ -21,29 +21,28 @@ package_bin() {
 
 # test packaging all binaries
 package_all() {
-    rm -rf target/lambda/release > /dev/null 2>&1
+   rm -rf target/lambda/release > /dev/null 2>&1
     docker run --rm \
     -v "${PWD}":/code \
     -v "${HOME}"/.cargo/registry:/root/.cargo/registry \
     -v "${HOME}"/.cargo/git:/root/.cargo/git \
     softprops/lambda-rust && \
-    ls target/lambda/release/bootstrap.zip > /dev/null 2>&1
+    ls target/lambda/release/"${1}".zip > /dev/null 2>&1
 }
 
 # test packaging with PROFILE=dev
 package_all_dev_profile() {
-    #rm -rf target/lambda/debug > /dev/null 2>&1
+    rm -rf target/lambda/debug > /dev/null 2>&1
     docker run --rm \
     -e PROFILE=dev \
     -v "${PWD}":/code \
     -v "${HOME}"/.cargo/registry:/root/.cargo/registry \
     -v "${HOME}"/.cargo/git:/root/.cargo/git \
     softprops/lambda-rust && \
-    ls -al target/lambda/debug && \
-    ls target/lambda/debug/bootstrap.zip > /dev/null 2>&1
+    ls target/lambda/debug/"${1}".zip > /dev/null 2>&1
 }
 
-for project in test-multi-func; do
+for project in test-func test-multi-func; do
     cd "${HERE}"/"${project}"
     echo "👩‍🔬 Running tests for $project"
 
@@ -56,9 +55,9 @@ for project in test-multi-func; do
     # package tests
     assert "it packages single bins" package_bin "${bin_name}"
 
-    assert "it packages all bins with dev profile" package_all_dev_profile
+    assert "it packages all bins with dev profile" package_all_dev_profile "${bin_name}"
 
-    assert "it packages all bins" package_all
+    assert "it packages all bins" package_all "${bin_name}"
 
     # verify packaged artifact by invoking it using the lambdaci "provided" docker image
     rm test-out.log > /dev/null 2>&1
