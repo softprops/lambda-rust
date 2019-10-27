@@ -24,6 +24,8 @@ isolate the lambda specific build artifacts from your host-local build artifacts
 
 > **⚠️ Note:** you can switch from the `release` profile to a custom profile like `dev` by providing a `PROFILE` environment variable set to the name of the desired profile. i.e. `-e PROFILE=dev` in your docker run
 
+> **⚠️ Note:** you can include debug symbols in optimized release build binaries by setting `DEBUGINFO`. By default, debug symbols will be stripped from the release binary and set aside in a separate .debug file.
+
 You will want to volume mount `/code` to the directory containing your cargo project.
 
 You can pass additional flags to `cargo`, the Rust build tool, by setting the `CARGO_FLAGS` docker env variable
