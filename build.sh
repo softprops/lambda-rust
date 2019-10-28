@@ -5,6 +5,7 @@
 set -eo pipefail
 mkdir -p target/lambda
 export PROFILE=${PROFILE:-release}
+export DEBUGINFO=${DEBUGINFO}
 # cargo uses different names for target
 # of its build profiles
 if [[ "${PROFILE}" == "release" ]]; then
@@ -30,7 +31,7 @@ export CARGO_TARGET_DIR=$PWD/target/lambda
 
 function package() {
     file="$1"
-    if [[ "${PROFILE}" == "release" ]]; then
+    if [[ "${PROFILE}" == "release" ]] && [[ -z "${DEBUGINFO}" ]]; then
         objcopy --only-keep-debug "$file" "$file.debug"
         objcopy --strip-debug --strip-unneeded "$file"
         objcopy --add-gnu-debuglink="$file.debug" "$file"
