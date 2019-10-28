@@ -1,3 +1,7 @@
+# 0.2.6-rust-1.38.0
+
+* Debug info in `release` profiles is now only included when a `DEBUGINFO` env variable is provided. This perserves previous behavior and makes enabling this an opt-in feature for `release` binaries
+
 # 0.2.5-rust-1.38.0
 
 * reduced total size of docker image by **~277MB** leveraging new [rustup `minimal` profile](https://blog.rust-lang.org/2019/10/15/Rustup-1.20.0.html)
