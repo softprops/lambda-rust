@@ -1,3 +1,7 @@
+# 0.2.6-rust-1.39.0
+
+* Upgrade to Rust [`1.39.0`](https://blog.rust-lang.org/2019/11/07/Rust-1.39.0.html)
+
 # 0.2.6-rust-1.38.0
 
 * Debug info in `release` profiles is now only included when a `DEBUGINFO` env variable is provided. This perserves previous behavior and makes enabling this an opt-in feature for `release` binaries
