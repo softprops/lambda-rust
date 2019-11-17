@@ -54,6 +54,29 @@ $ docker run --rm \
     softprops/lambda-rust
 ```
 
+## 🤸🤸 usage via cargo aws-lambda subcommand
+
+If you want to set up ad hoc lambda functions or have another reason to not to go with full blown devops orchestration tools,
+there's a cargo subcommand to compile your code into a zip file and deploy it to an existing function. This comes with only
+rust and docker as dependencies.
+
+Setup
+```sh
+$ cargo install cargo-aws-lambda
+```
+
+To compile and deploy in your project directory
+```sh
+$ cargo aws-lambda {your aws function's full ARN} {your-binary-name}
+```
+
+To list all options 
+```sh
+$ cargo aws-lambda --help
+```
+
+More instructions can be found [here](https://github.com/vvilhonen/cargo-aws-lambda).
+
 ## 🔬 local testing
 
 Once you've built a Rust lambda function artifact, the `provided` runtime expects
