@@ -13,7 +13,18 @@ if [[ "${PROFILE}" == "release" ]]; then
 else
     TARGET_PROFILE="debug"
 fi
-export CARGO_TARGET_DIR=$PWD/target/lambda
+
+# If something is mounted to /build-volume, the
+# build is performed there. This boosts performance
+# with docker for windows.
+if [[ -e /build-volume ]]; then
+    export CARGO_TARGET_DIR=/build-volume/target/lambda
+    FINAL_TARGET_DIR="${PWD}/target/lambda/${TARGET_PROFILE}"
+    mkdir -p "${FINAL_TARGET_DIR}"
+else
+    export CARGO_TARGET_DIR="${PWD}/target/lambda"
+fi
+
 (
     if [[ $# -gt 0 ]]; then
         yum install -y "$@"
@@ -43,7 +54,10 @@ function package() {
         mv "${file}" bootstrap
         mv "${file}.debug" bootstrap.debug > 2&>/dev/null || true
     fi
-    zip "$file.zip" bootstrap
+    zip "${file}.zip" bootstrap
+    if [[ -n "${FINAL_TARGET_DIR}" ]]; then
+        mv -f "${file}.zip" "${FINAL_TARGET_DIR}/"
+    fi
     rm bootstrap
 }
 
@@ -52,7 +66,7 @@ cd "${CARGO_TARGET_DIR}/${TARGET_PROFILE}"
     . $HOME/.cargo/env
     if [ -z "$BIN" ]; then
         IFS=$'\n'
-        for executable in $(cargo metadata --no-deps --format-version=1 | jq -r '.packages[] | .targets[] | select(.kind[] | contains("bin")) | .name'); do
+        for executable in $(cd /code && cargo metadata --no-deps --format-version=1 | jq -r '.packages[] | .targets[] | select(.kind[] | contains("bin")) | .name'); do
           package "$executable"
         done
     else
