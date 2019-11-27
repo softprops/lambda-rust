@@ -54,6 +54,21 @@ $ docker run --rm \
     softprops/lambda-rust
 ```
 
+If you're suffering from poor performance on Windows, you can enable a separate build volume
+to speed up file access. Initial setup requires creating a docker volume with the following command.
+```sh
+$ docker volume create rust-build-volume
+```
+Now you can run the build with the following command and both clean and incremental builds
+should be way faster.
+```sh
+$ docker run --rm \
+    -e BIN={your-binary-name} \
+    -v ${PWD}:/code \
+    -v rust-build-volume:/build-volume \
+    softprops/lambda-rust
+```
+
 ## 🤸🤸 usage via cargo aws-lambda subcommand
 
 If you want to set up ad hoc lambda functions or have another reason to not to go with full blown devops orchestration tools,
@@ -69,6 +84,8 @@ To compile and deploy in your project directory
 ```sh
 $ cargo aws-lambda {your aws function's full ARN} {your-binary-name}
 ```
+
+> 💡 Add `--use-build-volume` to get speed up on Windows
 
 To list all options 
 ```sh
