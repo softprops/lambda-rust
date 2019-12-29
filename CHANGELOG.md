@@ -1,5 +1,9 @@
 # 0.2.6-rust-1.39.0
 
+* Upgrade to Rust [`1.40.0`](https://blog.rust-lang.org/2019/12/19/Rust-1.40.0.html)
+
+# 0.2.6-rust-1.39.0
+
 * Upgrade to Rust [`1.39.0`](https://blog.rust-lang.org/2019/11/07/Rust-1.39.0.html)
 
 # 0.2.6-rust-1.38.0
