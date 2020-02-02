@@ -1,0 +1,11 @@
+[package]
+name = "native-crate"
+version = "0.1.0"
+authors = ["Roman Valls Guimera <brainstorm+lambda-rust@nopcode.org>"]
+edition = "2018"
+
+[dependencies]
+# This crate is just a bindgen C example, it could be substituted with a smaller example
+rust-htslib = { version="0.26.2-alpha.0", git="https://github.com/nlhepler/rust-htslib/", branch="lh/hts-sys" }
+lambda_runtime = "0.2"
+serde_json = "1.0"

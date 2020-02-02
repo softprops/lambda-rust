@@ -1,4 +1,8 @@
-# 0.2.6-rust-1.39.0
+# 0.2.7-rust-1.40.0
+
+* Add bindgen C crate, [update LLVM accordingly](https://github.com/softprops/lambda-rust/issues/53).
+
+# 0.2.6-rust-1.40.0
 
 * Upgrade to Rust [`1.40.0`](https://blog.rust-lang.org/2019/12/19/Rust-1.40.0.html)
 

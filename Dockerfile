@@ -1,7 +1,7 @@
 # https://github.com/lambci/docker-lambda#documentation
 FROM lambci/lambda:build-provided
 ARG RUST_VERSION
-RUN yum install -y jq
+RUN yum install -y jq && yum remove -y clang && yum install -y clang6.0
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
  | sh -s -- -y --profile minimal --default-toolchain $RUST_VERSION
 ADD build.sh /usr/local/bin/

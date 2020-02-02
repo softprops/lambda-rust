@@ -1,2 +1,4 @@
 tests/test-func/test-out.log
 target
+.idea
+.vscode
