@@ -42,14 +42,14 @@ package_all_dev_profile() {
     ls target/lambda/debug/"${1}".zip > /dev/null 2>&1
 }
 
-for project in test-func test-multi-func; do
+for project in test-func test-multi-func test-func-with-hooks; do
     cd "${HERE}"/"${project}"
     echo "👩‍🔬 Running tests for $project"
 
-    if [[ "$project" == test-func ]]; then
-        bin_name=bootstrap
-    else
+    if [[ "$project" == test-multi-func ]]; then
         bin_name=test-func
+    else
+        bin_name=bootstrap
     fi
 
     # package tests
@@ -60,6 +60,7 @@ for project in test-func test-multi-func; do
     assert "it packages all bins" package_all "${bin_name}"
 
     # verify packaged artifact by invoking it using the lambdaci "provided" docker image
+    rm output.log > /dev/null 2>&1
     rm test-out.log > /dev/null 2>&1
     rm -rf /tmp/lambda > /dev/null 2>&1
     unzip -o  \
@@ -71,7 +72,7 @@ for project in test-func test-multi-func; do
         -v /tmp/lambda:/var/task \
         lambci/lambda:provided < test-event.json | grep -v RequestId | grep -v '^\W*$' > test-out.log
 
-    assert "when invoked, it produces expected output" diff test-event.json test-out.log
+    assert "when invoked, it produces expected output" diff expected-output.json test-out.log
 done
 
 end_tests
