@@ -54,6 +54,18 @@ $ docker run --rm \
     softprops/lambda-rust
 ```
 
+## ⚓ using hooks
+
+If you want to customize certain parts of the build process, you can leverage hooks that this image provides.
+Hooks are just shell scripts that are invoked in a specific order, so you can customize the process as you wish. The following hooks exist:
+* `install`: run before `cargo build` - useful for installing native dependencies on the lambda environment
+* `build`: run after `cargo build`, but before packaging the executable into a zip - useful when modifying the executable after compilation
+* `package`: run after packaging the executable into a zip - useful for adding extra files into the zip file
+
+The hooks' names are predefined and must be placed in a directory `.lambda-rust` in the project root. 
+
+You can take a look at an example [here](./tests/test-func-with-hooks).
+
 ## 🤸🤸 usage via cargo aws-lambda subcommand
 
 If you want to set up ad hoc lambda functions or have another reason to not to go with full blown devops orchestration tools,

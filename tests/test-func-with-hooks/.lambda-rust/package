@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+echo "package hook called"
+echo -n 'package' >> /code/output.log
+zip -j "$1.zip" /code/output.log

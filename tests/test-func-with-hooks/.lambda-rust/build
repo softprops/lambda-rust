@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+echo "build hook called"
+echo -n 'build,' >> /code/output.log

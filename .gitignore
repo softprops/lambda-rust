@@ -1,2 +1,3 @@
-tests/test-func/test-out.log
+tests/test-*/test-out.log
 target
+.DS_Store
