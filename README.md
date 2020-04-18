@@ -114,14 +114,14 @@ In a separate terminal, you can invoke your function with `curl`
 The `-d` flag is a means of providing your function's input.
 
 ```sh
-curl -d '{}' \
+$ curl -d '{}' \
     http://localhost:9001/2015-03-31/functions/myfunction/invocations
 ```
 
 You can also the `aws` cli to invoke your function locally.  The `--payload` is a means of providing your function's input.
 
 ```sh
-aws lambda invoke \
+$ aws lambda invoke \
     --endpoint http://localhost:9001 \
     --cli-binary-format raw-in-base64-out \
     --no-sign-request \
