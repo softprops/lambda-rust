@@ -79,13 +79,10 @@ You can invoke this bootstap executable with the lambda-ci docker image for the 
 ```sh
 # start a one-off docker container replicating the "provided" lambda runtime
 # awaiting an event to be provided via stdin
-$ unzip -o \
-    target/lambda/release/{your-binary-name}.zip \
-    -d /tmp/lambda && \
-  docker run \
+$ docker run \
     -i -e DOCKER_LAMBDA_USE_STDIN=1 \
     --rm \
-    -v /tmp/lambda:/var/task:ro,delegated \
+    -v ${PWD}/target/lambda/release:/var/task:ro,delegated \
     lambci/lambda:provided
 
 # provide an event payload via stdin (typically a json blob)
