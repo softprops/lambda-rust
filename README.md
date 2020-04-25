@@ -64,7 +64,7 @@ Hooks are just shell scripts that are invoked in a specific order, so you can cu
 * `build`: run after `cargo build`, but before packaging the executable into a zip - useful when modifying the executable after compilation
 * `package`: run after packaging the executable into a zip - useful for adding extra files into the zip file
 
-The hooks' names are predefined and must be placed in a directory `.lambda-rust` in the project root. 
+The hooks' names are predefined and must be placed in a directory `.lambda-rust` in the project root.
 
 You can take a look at an example [here](./tests/test-func-with-hooks).
 
@@ -144,7 +144,7 @@ To compile and deploy in your project directory
 $ cargo aws-lambda {your aws function's full ARN} {your-binary-name}
 ```
 
-To list all options 
+To list all options
 ```sh
 $ cargo aws-lambda --help
 ```
