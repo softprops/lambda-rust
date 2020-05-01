@@ -11,6 +11,8 @@ set -eo pipefail
 mkdir -p target/lambda
 export PROFILE=${PROFILE:-release}
 export DEBUGINFO=${DEBUGINFO}
+export CARGO_HOME="/cargo"
+export RUSTUP_HOME="/cargo"
 # cargo uses different names for target
 # of its build profiles
 if [[ "${PROFILE}" == "release" ]]; then
@@ -31,7 +33,7 @@ export CARGO_TARGET_DIR=$PWD/target/lambda
     fi
 
     # source cargo
-    . $HOME/.cargo/env
+    . $CARGO_HOME/env
     # cargo only supports --release flag for release
     # profiles. dev is implicit
     if [ "${PROFILE}" == "release" ]; then
@@ -73,7 +75,7 @@ function package() {
 
 cd "${CARGO_TARGET_DIR}/${TARGET_PROFILE}"
 (
-    . $HOME/.cargo/env
+    . $CARGO_HOME/env
     if [ -z "$BIN" ]; then
         IFS=$'\n'
         for executable in $(cargo metadata --no-deps --format-version=1 | jq -r '.packages[] | .targets[] | select(.kind[] | contains("bin")) | .name'); do

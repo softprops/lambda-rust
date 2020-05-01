@@ -37,12 +37,13 @@ A typical docker run might look like the following.
 ```sh
 $ docker run --rm \
     -v ${PWD}:/code \
-    -v ${HOME}/.cargo/registry:/root/.cargo/registry \
-    -v ${HOME}/.cargo/git:/root/.cargo/git \
+    -u $(id -u):$(id -g) \
+    -v ${HOME}/.cargo/registry:/cargo/registry \
+    -v ${HOME}/.cargo/git:/cargo/git \
     softprops/lambda-rust
 ```
 
-> 💡 The -v (volume mount) flags for `/root/.cargo/{registry,git}` are optional but when supplied, provides a much faster turn around when doing iterative development
+> 💡 The -v (volume mount) flags for `/cargo/{registry,git}` are optional but when supplied, provides a much faster turn around when doing iterative development
 
 If you are using Windows, the command above may need to be modified to include
 a `BIN` environment variable set to the name of the binary to be build and packaged
@@ -51,8 +52,8 @@ a `BIN` environment variable set to the name of the binary to be build and packa
 $ docker run --rm \
     -e BIN={your-binary-name} \
     -v ${PWD}:/code \
-    -v ${HOME}/.cargo/registry:/root/.cargo/registry \
-    -v ${HOME}/.cargo/git:/root/.cargo/git \
+    -v ${HOME}/.cargo/registry:/cargo/registry \
+    -v ${HOME}/.cargo/git:/cargo/git \
     softprops/lambda-rust
 ```
 

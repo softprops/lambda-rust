@@ -11,10 +11,11 @@ source "${HERE}"/bashtest.sh
 package_bin() {
     rm -rf target/lambda/release > /dev/null 2>&1
     docker run --rm \
+    -u $(id -u):$(id -g) \
     -e BIN="$1" \
     -v "${PWD}":/code \
-    -v "${HOME}"/.cargo/registry:/root/.cargo/registry \
-    -v "${HOME}"/.cargo/git:/root/.cargo/git \
+    -v "${HOME}"/.cargo/registry:/cargo/registry \
+    -v "${HOME}"/.cargo/git:/cargo/git \
     softprops/lambda-rust && \
     ls target/lambda/release/"$1".zip > /dev/null 2>&1
 }
@@ -23,9 +24,10 @@ package_bin() {
 package_all() {
     rm -rf target/lambda/release > /dev/null 2>&1
     docker run --rm \
+    -u $(id -u):$(id -g) \
     -v "${PWD}":/code \
-    -v "${HOME}"/.cargo/registry:/root/.cargo/registry \
-    -v "${HOME}"/.cargo/git:/root/.cargo/git \
+    -v "${HOME}"/.cargo/registry:/cargo/registry \
+    -v "${HOME}"/.cargo/git:/cargo/git \
     softprops/lambda-rust && \
     ls target/lambda/release/"${1}".zip > /dev/null 2>&1
 }
@@ -34,10 +36,11 @@ package_all() {
 package_all_dev_profile() {
     rm -rf target/lambda/debug > /dev/null 2>&1
     docker run --rm \
+    -u $(id -u):$(id -g) \
     -e PROFILE=dev \
     -v "${PWD}":/code \
-    -v "${HOME}"/.cargo/registry:/root/.cargo/registry \
-    -v "${HOME}"/.cargo/git:/root/.cargo/git \
+    -v "${HOME}"/.cargo/registry:/cargo/registry \
+    -v "${HOME}"/.cargo/git:/cargo/git \
     softprops/lambda-rust && \
     ls target/lambda/debug/"${1}".zip > /dev/null 2>&1
 }
