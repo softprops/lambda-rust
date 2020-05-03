@@ -56,6 +56,19 @@ $ docker run --rm \
     softprops/lambda-rust
 ```
 
+For more custom codebases, the '-w' argument can be used to override the working directory.
+This can be especially useful when using path dependencies for local crates.
+
+```sh
+$ docker run --rm \
+    -v ${PWD}/lambdas/mylambda:/code/lambdas/mylambda \
+    -v ${PWD}/libs/mylib:/code/libs/mylib \
+    -v ${HOME}/.cargo/registry:/root/.cargo/registry \
+    -v ${HOME}/.cargo/git:/root/.cargo/git \
+    -w /code/lambdas/mylambda \
+    softprops/lambda-rust
+```
+
 ## ⚓ using hooks
 
 If you want to customize certain parts of the build process, you can leverage hooks that this image provides.
