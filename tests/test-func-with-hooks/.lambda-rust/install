@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+echo "install hook called"
+rm /code/output.log
+echo -n 'install,' >> /code/output.log

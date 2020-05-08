@@ -1,3 +1,11 @@
+# 0.2.7-rust-1.43.0
+
+* Upgrade to Rust [`1.43.0`](https://blog.rust-lang.org/2020/04/23/Rust-1.43.0.html)
+
+# 0.2.7-rust-1.42.0
+
+* Invoke user provided hooks for customized installation, building, and packaging needs [#59](https://github.com/softprops/lambda-rust/pull/59)
+
 # 0.2.6-rust-1.42.0
 
 * Upgrade to Rust [`1.42.0`](https://blog.rust-lang.org/2020/03/12/Rust-1.42.html)
