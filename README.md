@@ -106,7 +106,7 @@ $ unzip -o \
 # Ctrl-D to yield control back to your function
 ```
 
-If you may find the one-off container less than ideal for if you wish to trigger your lambda multiple times. For these cases try using the "stay open" mode of execution.
+You may find the one-off container less than ideal if you wish to trigger your lambda multiple times. For these cases try using the "stay open" mode of execution.
 
 ```sh
 # start a long running docker container replicating the "provided" lambda runtime
