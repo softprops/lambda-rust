@@ -131,7 +131,7 @@ $ curl -d '{}' \
     http://localhost:9001/2015-03-31/functions/myfunction/invocations
 ```
 
-You can also the `aws` cli to invoke your function locally.  The `--payload` is a means of providing your function's input.
+You can also use the `aws` cli to invoke your function locally.  The `--payload` is a means of providing your function's input.
 
 ```sh
 $ aws lambda invoke \
