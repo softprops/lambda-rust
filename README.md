@@ -77,7 +77,7 @@ Hooks are just shell scripts that are invoked in a specific order, so you can cu
 * `build`: run after `cargo build`, but before packaging the executable into a zip - useful when modifying the executable after compilation
 * `package`: run after packaging the executable into a zip - useful for adding extra files into the zip file
 
-The hooks' names are predefined and must be placed in a directory `.lambda-rust` in the project root. 
+The hooks' names are predefined and must be placed in a directory `.lambda-rust` in the project root.
 
 You can take a look at an example [here](./tests/test-func-with-hooks).
 
@@ -92,13 +92,10 @@ You can invoke this bootstap executable with the lambda-ci docker image for the 
 ```sh
 # start a one-off docker container replicating the "provided" lambda runtime
 # awaiting an event to be provided via stdin
-$ unzip -o \
-    target/lambda/release/{your-binary-name}.zip \
-    -d /tmp/lambda && \
-  docker run \
+$ docker run \
     -i -e DOCKER_LAMBDA_USE_STDIN=1 \
     --rm \
-    -v /tmp/lambda:/var/task:ro,delegated \
+    -v ${PWD}/target/lambda/release:/var/task:ro,delegated \
     lambci/lambda:provided
 
 # provide an event payload via stdin (typically a json blob)
@@ -160,7 +157,7 @@ To compile and deploy in your project directory
 $ cargo aws-lambda {your aws function's full ARN} {your-binary-name}
 ```
 
-To list all options 
+To list all options
 ```sh
 $ cargo aws-lambda --help
 ```

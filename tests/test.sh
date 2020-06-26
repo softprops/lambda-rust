@@ -4,6 +4,7 @@
 HERE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # Root directory of the repository
 DIST=$(cd "$HERE"/..; pwd)
+IMAGE=${1:-softprops/lambda-rust}
 
 source "${HERE}"/bashtest.sh
 
@@ -15,7 +16,7 @@ package_bin() {
     -v "${PWD}":/code \
     -v "${HOME}"/.cargo/registry:/root/.cargo/registry \
     -v "${HOME}"/.cargo/git:/root/.cargo/git \
-    softprops/lambda-rust && \
+    ${IMAGE} && \
     ls target/lambda/release/"$1".zip > /dev/null 2>&1
 }
 
@@ -26,7 +27,7 @@ package_all() {
     -v "${PWD}":/code \
     -v "${HOME}"/.cargo/registry:/root/.cargo/registry \
     -v "${HOME}"/.cargo/git:/root/.cargo/git \
-    softprops/lambda-rust && \
+    ${IMAGE} && \
     ls target/lambda/release/"${1}".zip > /dev/null 2>&1
 }
 
@@ -38,13 +39,13 @@ package_all_dev_profile() {
     -v "${PWD}":/code \
     -v "${HOME}"/.cargo/registry:/root/.cargo/registry \
     -v "${HOME}"/.cargo/git:/root/.cargo/git \
-    softprops/lambda-rust && \
+    ${IMAGE} && \
     ls target/lambda/debug/"${1}".zip > /dev/null 2>&1
 }
 
 for project in test-func test-multi-func test-func-with-hooks; do
     cd "${HERE}"/"${project}"
-    echo "👩‍🔬 Running tests for $project"
+    echo "👩‍🔬 Running tests for $project with image $IMAGE"
 
     if [[ "$project" == test-multi-func ]]; then
         bin_name=test-func

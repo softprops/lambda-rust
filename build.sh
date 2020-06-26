@@ -52,20 +52,18 @@ export CARGO_TARGET_DIR=$PWD/target/lambda
 
 function package() {
     file="$1"
+    OUTPUT_FOLDER="output"
     if [[ "${PROFILE}" == "release" ]] && [[ -z "${DEBUGINFO}" ]]; then
         objcopy --only-keep-debug "$file" "$file.debug"
         objcopy --strip-debug --strip-unneeded "$file"
         objcopy --add-gnu-debuglink="$file.debug" "$file"
     fi
     rm "$file.zip" > 2&>/dev/null || true
-    # note: would use printf "@ $(basename $file)\n@=bootstrap" | zipnote -w "$file.zip"
-    # if not for https://bugs.launchpad.net/ubuntu/+source/zip/+bug/519611
-    if [ "$file" != ./bootstrap ] && [ "$file" != bootstrap ]; then
-        mv "${file}" bootstrap
-        mv "${file}.debug" bootstrap.debug > 2&>/dev/null || true
-    fi
-    zip "$file.zip" bootstrap
-    rm bootstrap
+    rm -r "${OUTPUT_FOLDER}" > 2&>/dev/null || true
+    mkdir "${OUTPUT_FOLDER}"
+    cp "${file}" "${OUTPUT_FOLDER}/bootstrap"
+    cp "${file}.debug" "${OUTPUT_FOLDER}/bootstrap.debug" > 2&>/dev/null || true
+    zip -j "$file.zip" "${OUTPUT_FOLDER}/bootstrap"
 
     if test -f "$HOOKS_DIR/$PACKAGE_HOOK"; then
         echo "Running package hook"
