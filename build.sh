@@ -32,12 +32,15 @@ export CARGO_TARGET_DIR=$PWD/target/lambda
 
     # source cargo
     . $HOME/.cargo/env
+
+    CARGO_BIN_ARG="" && [[ -n "$BIN" ]] && CARGO_BIN_ARG="--bin ${BIN}"
+
     # cargo only supports --release flag for release
     # profiles. dev is implicit
     if [ "${PROFILE}" == "release" ]; then
-        cargo build ${CARGO_FLAGS:-} --${PROFILE}
+        cargo build ${CARGO_BIN_ARG} ${CARGO_FLAGS:-} --${PROFILE}
     else
-        cargo build ${CARGO_FLAGS:-}
+        cargo build ${CARGO_BIN_ARG} ${CARGO_FLAGS:-}
     fi
 
     if test -f "$HOOKS_DIR/$BUILD_HOOK"; then
