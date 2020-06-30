@@ -52,7 +52,7 @@ export CARGO_TARGET_DIR=$PWD/target/lambda
 
 function package() {
     file="$1"
-    OUTPUT_FOLDER="output"
+    OUTPUT_FOLDER="output/${file}"
     if [[ "${PROFILE}" == "release" ]] && [[ -z "${DEBUGINFO}" ]]; then
         objcopy --only-keep-debug "$file" "$file.debug"
         objcopy --strip-debug --strip-unneeded "$file"
@@ -60,15 +60,17 @@ function package() {
     fi
     rm "$file.zip" > 2&>/dev/null || true
     rm -r "${OUTPUT_FOLDER}" > 2&>/dev/null || true
-    mkdir "${OUTPUT_FOLDER}"
+    mkdir -p "${OUTPUT_FOLDER}"
     cp "${file}" "${OUTPUT_FOLDER}/bootstrap"
     cp "${file}.debug" "${OUTPUT_FOLDER}/bootstrap.debug" > 2&>/dev/null || true
-    zip -j "$file.zip" "${OUTPUT_FOLDER}/bootstrap"
 
-    if test -f "$HOOKS_DIR/$PACKAGE_HOOK"; then
-        echo "Running package hook"
-        /bin/bash "$HOOKS_DIR/$PACKAGE_HOOK" $file
-        echo "Package hook ran successfully"
+    if [[ -z "$SKIP_ZIPPING" ]]; then
+        zip -j "$file.zip" "${OUTPUT_FOLDER}/bootstrap"
+        if test -f "$HOOKS_DIR/$PACKAGE_HOOK"; then
+            echo "Running package hook"
+            /bin/bash "$HOOKS_DIR/$PACKAGE_HOOK" $file
+            echo "Package hook ran successfully"
+        fi
     fi
 }
 
