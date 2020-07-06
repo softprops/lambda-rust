@@ -8,7 +8,7 @@ IMAGE=${1:-softprops/lambda-rust}
 
 source "${HERE}"/bashtest.sh
 
-# test packaing with a single binary
+# test packaging with a single binary
 package_bin() {
     rm -rf target/lambda/release > /dev/null 2>&1
     docker run --rm \
@@ -17,7 +17,9 @@ package_bin() {
     -v "${HOME}"/.cargo/registry:/root/.cargo/registry \
     -v "${HOME}"/.cargo/git:/root/.cargo/git \
     ${IMAGE} && \
-    ls target/lambda/release/"$1".zip > /dev/null 2>&1
+    ls target/lambda/release/"${1}".zip > /dev/null 2>&1 &&
+    ls target/lambda/release/output/"${1}"/bootstrap 2>&1 &&
+    ls target/lambda/release/output/"${1}"/bootstrap.debug 2>&1
 }
 
 # test packaging all binaries
@@ -28,7 +30,23 @@ package_all() {
     -v "${HOME}"/.cargo/registry:/root/.cargo/registry \
     -v "${HOME}"/.cargo/git:/root/.cargo/git \
     ${IMAGE} && \
-    ls target/lambda/release/"${1}".zip > /dev/null 2>&1
+    ls target/lambda/release/"${1}".zip > /dev/null 2>&1 &&
+    ls target/lambda/release/output/"${1}"/bootstrap 2>&1 &&
+    ls target/lambda/release/output/"${1}"/bootstrap.debug 2>&1
+}
+
+# test SKIP_ZIPPING=1 flag
+compile_without_zipping() {
+    rm -rf target/lambda/release > /dev/null 2>&1
+    docker run --rm \
+    -e SKIP_ZIPPING=1 \
+    -v "${PWD}":/code \
+    -v "${HOME}"/.cargo/registry:/root/.cargo/registry \
+    -v "${HOME}"/.cargo/git:/root/.cargo/git \
+    ${IMAGE} &&
+    !(ls target/lambda/release/"${1}".zip > /dev/null 2>&1) &&
+    ls target/lambda/release/output/"${1}"/bootstrap 2>&1 &&
+    ls target/lambda/release/output/"${1}"/bootstrap.debug 2>&1
 }
 
 # test packaging with PROFILE=dev
@@ -40,7 +58,9 @@ package_all_dev_profile() {
     -v "${HOME}"/.cargo/registry:/root/.cargo/registry \
     -v "${HOME}"/.cargo/git:/root/.cargo/git \
     ${IMAGE} && \
-    ls target/lambda/debug/"${1}".zip > /dev/null 2>&1
+    ls target/lambda/debug/"${1}".zip > /dev/null 2>&1 &&
+    ls target/lambda/release/output/"${1}"/bootstrap 2>&1 &&
+    ls target/lambda/release/output/"${1}"/bootstrap.debug 2>&1
 }
 
 for project in test-func test-multi-func test-func-with-hooks; do
@@ -57,6 +77,8 @@ for project in test-func test-multi-func test-func-with-hooks; do
     assert "it packages single bins" package_bin "${bin_name}"
 
     assert "it packages all bins with dev profile" package_all_dev_profile "${bin_name}"
+
+    assert "it compiles the binaries without zipping when SKIP_ZIPPING=1" compile_without_zipping "${bin_name}"
 
     assert "it packages all bins" package_all "${bin_name}"
 

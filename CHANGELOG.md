@@ -1,3 +1,10 @@
+# 0.3.0-rust-1.44.1
+
+* Put unzipped `boostrap` and `boostrap.debug` files under `target/lambda/${PROFILE}/output/${BIN}` dir
+to allow for using these artifacts without an intermediate `.zip` file creation step.
+* Introduce `$SKIP_ZIPPING` env var. Setting `-e SKIP_ZIPPING=1` prevents `.zip` archive from
+being created and `package` hook from running.
+
 # 0.2.7-rust-1.44.1
 
 * Upgrade to Rust [`1.44.1`](https://blog.rust-lang.org/2020/06/18/Rust.1.44.1.html)

@@ -6,7 +6,7 @@
 This docker image extends [lambda ci `provided`](https://github.com/lambci/docker-lambda#documentation) builder docker image, a faithful reproduction of the actual AWS "**provided**" Lambda runtime environment,
 and installs [rustup](https://rustup.rs/) and the *stable* rust toolchain.
 
-This provides a build environment, consistent with your target execution environment for predicable results.
+This provides a build environment, consistent with your target execution environment for predictable results.
 
 ## 📦 install
 
@@ -21,7 +21,7 @@ You can also depend directly on `softprops/lambda-rust:latest` for the most rece
 
 ## 🤸 usage
 
-The default docker entrypoint will build a packaged release optimized version your Rust artifact under `target/lambda/release` to
+The default docker entrypoint will build a packaged release optimized version of your Rust artifact under `target/lambda/release` to
 isolate the lambda specific build artifacts from your host-local build artifacts.
 
 > **⚠️ Note:** you can switch from the `release` profile to a custom profile like `dev` by providing a `PROFILE` environment variable set to the name of the desired profile. i.e. `-e PROFILE=dev` in your docker run
@@ -30,7 +30,12 @@ isolate the lambda specific build artifacts from your host-local build artifacts
 
 You will want to volume mount `/code` to the directory containing your cargo project.
 
-You can pass additional flags to `cargo`, the Rust build tool, by setting the `CARGO_FLAGS` docker env variable
+You can pass additional flags to `cargo`, the Rust build tool, by setting the `CARGO_FLAGS` docker env variable.
+
+Unzipped `boostrap` and `boostrap.debug` files are always available
+under `target/lambda/${PROFILE}/output/${BIN}` dir. If you want only them and don't
+need a `.zip` archive (e.g. for when running lambdas locally) pass `-e SKIP_ZIPPING=1`
+flag. More on that in [local testing](#-local-testing).
 
 A typical docker run might look like the following.
 
@@ -41,7 +46,6 @@ $ docker run --rm \
     -v ${HOME}/.cargo/git:/root/.cargo/git \
     softprops/lambda-rust
 ```
-
 > 💡 The -v (volume mount) flags for `/root/.cargo/{registry,git}` are optional but when supplied, provides a much faster turn around when doing iterative development
 
 If you are using Windows, the command above may need to be modified to include
@@ -85,17 +89,32 @@ You can take a look at an example [here](./tests/test-func-with-hooks).
 
 Once you've built a Rust lambda function artifact, the `provided` runtime expects
 deployments of that artifact to be named "**bootstrap**". The `lambda-rust` docker image
-builds a zip file, named after the binary, containing your binary files renamed to "bootstrap" for you.
+builds a zip file, named after the binary, containing your binary file renamed to "bootstrap" for you, but zip file creation is unnecessary for local development.
 
-You can invoke this bootstap executable with the lambda-ci docker image for the `provided` AWS lambda runtime with a one off container.
+In order to prevent the creation of an intermediate `.zip` artifact when testing your lambdas locally, pass `-e SKIP_ZIPPING=1` during the build. After that the necessary
+output (not zipped) is available under `target/lambda/{profile}/output/{your-lambda-binary-name}` dir.
+You will see both `bootstrap` and `bootstrap.debug` files there.
+> **⚠️ Note:** `SKIP_ZIPPING=1` prevents `package` hook from running.
+
+You can then invoke this bootstap executable with the lambda-ci docker image for the `provided` AWS lambda runtime with a one off container.
 
 ```sh
+# Build your function skipping the zip creation step
+# You may pass `-e PROFILE=dev` to build using dev profile, but here we use `release`
+docker run \
+    -e SKIP_ZIPPING=1 \
+    -e BIN={your-binary-name} \
+    -v ${PWD}:/code \
+    -v ${HOME}/.cargo/registry:/root/.cargo/registry \
+    -v ${HOME}/.cargo/git:/root/.cargo/git \
+    softprops/lambda-rust
+
 # start a one-off docker container replicating the "provided" lambda runtime
 # awaiting an event to be provided via stdin
 $ docker run \
     -i -e DOCKER_LAMBDA_USE_STDIN=1 \
     --rm \
-    -v ${PWD}/target/lambda/release:/var/task:ro,delegated \
+    -v ${PWD}/target/lambda/release/output/{your-binary-name}:/var/task:ro,delegated \
     lambci/lambda:provided
 
 # provide an event payload via stdin (typically a json blob)
