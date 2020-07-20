@@ -2,7 +2,7 @@
 
 * Put unzipped `boostrap` and `boostrap.debug` files under `target/lambda/${PROFILE}/output/${BIN}` dir
 to allow for using these artifacts without an intermediate `.zip` file creation step.
-* Introduce `$SKIP_ZIPPING` env var. Setting `-e SKIP_ZIPPING=1` prevents `.zip` archive from
+* Introduce `$PACKAGE` env var. Setting `-e PACKAGE=false` prevents `.zip` archive from
 being created and `package` hook from running.
 
 # 0.2.7-rust-1.44.1

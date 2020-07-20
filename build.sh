@@ -10,6 +10,7 @@ PACKAGE_HOOK="package"
 set -eo pipefail
 mkdir -p target/lambda
 export PROFILE=${PROFILE:-release}
+export PACKAGE=${PACKAGE:-true}
 export DEBUGINFO=${DEBUGINFO}
 # cargo uses different names for target
 # of its build profiles
@@ -64,7 +65,7 @@ function package() {
     cp "${file}" "${OUTPUT_FOLDER}/bootstrap"
     cp "${file}.debug" "${OUTPUT_FOLDER}/bootstrap.debug" > 2&>/dev/null || true
 
-    if [[ -z "$SKIP_ZIPPING" ]]; then
+    if [[ "$PACKAGE" != "false" ]]; then
         zip -j "$file.zip" "${OUTPUT_FOLDER}/bootstrap"
         if test -f "$HOOKS_DIR/$PACKAGE_HOOK"; then
             echo "Running package hook"

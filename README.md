@@ -34,7 +34,7 @@ You can pass additional flags to `cargo`, the Rust build tool, by setting the `C
 
 Unzipped `boostrap` and `boostrap.debug` files are always available
 under `target/lambda/${PROFILE}/output/${BIN}` dir. If you want only them and don't
-need a `.zip` archive (e.g. for when running lambdas locally) pass `-e SKIP_ZIPPING=1`
+need a `.zip` archive (e.g. for when running lambdas locally) pass `-e PACKAGE=false`
 flag. More on that in [local testing](#-local-testing).
 
 A typical docker run might look like the following.
@@ -91,10 +91,10 @@ Once you've built a Rust lambda function artifact, the `provided` runtime expect
 deployments of that artifact to be named "**bootstrap**". The `lambda-rust` docker image
 builds a zip file, named after the binary, containing your binary file renamed to "bootstrap" for you, but zip file creation is unnecessary for local development.
 
-In order to prevent the creation of an intermediate `.zip` artifact when testing your lambdas locally, pass `-e SKIP_ZIPPING=1` during the build. After that the necessary
+In order to prevent the creation of an intermediate `.zip` artifact when testing your lambdas locally, pass `-e PACKAGE=false` during the build. After that the necessary
 output (not zipped) is available under `target/lambda/{profile}/output/{your-lambda-binary-name}` dir.
 You will see both `bootstrap` and `bootstrap.debug` files there.
-> **⚠️ Note:** `SKIP_ZIPPING=1` prevents `package` hook from running.
+> **⚠️ Note:** `PACKAGE=false` prevents `package` hook from running.
 
 You can then invoke this bootstap executable with the lambda-ci docker image for the `provided` AWS lambda runtime with a one off container.
 
@@ -102,7 +102,7 @@ You can then invoke this bootstap executable with the lambda-ci docker image for
 # Build your function skipping the zip creation step
 # You may pass `-e PROFILE=dev` to build using dev profile, but here we use `release`
 docker run \
-    -e SKIP_ZIPPING=1 \
+    -e PACKAGE=false \
     -e BIN={your-binary-name} \
     -v ${PWD}:/code \
     -v ${HOME}/.cargo/registry:/root/.cargo/registry \

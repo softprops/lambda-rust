@@ -35,11 +35,11 @@ package_all() {
     ls target/lambda/release/output/"${1}"/bootstrap.debug 2>&1
 }
 
-# test SKIP_ZIPPING=1 flag
-compile_without_zipping() {
+# test PACKAGE=false flag
+compile_without_packaging() {
     rm -rf target/lambda/release > /dev/null 2>&1
     docker run --rm \
-    -e SKIP_ZIPPING=1 \
+    -e PACKAGE=false \
     -v "${PWD}":/code \
     -v "${HOME}"/.cargo/registry:/root/.cargo/registry \
     -v "${HOME}"/.cargo/git:/root/.cargo/git \
@@ -78,7 +78,7 @@ for project in test-func test-multi-func test-func-with-hooks; do
 
     assert "it packages all bins with dev profile" package_all_dev_profile "${bin_name}"
 
-    assert "it compiles the binaries without zipping when SKIP_ZIPPING=1" compile_without_zipping "${bin_name}"
+    assert "it compiles the binaries without zipping when PACKAGE=false" compile_without_packaging "${bin_name}"
 
     assert "it packages all bins" package_all "${bin_name}"
 
