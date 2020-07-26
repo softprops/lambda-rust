@@ -1,3 +1,7 @@
+# 0.3.0-rust-1.45.0
+
+* Upgrade to Rust [`1.45.0`](https://blog.rust-lang.org/2020/07/16/Rust-1.45.0.html)
+
 # 0.3.0-rust-1.44.1
 
 * Put unzipped `boostrap` and `bootstrap.debug` files under `target/lambda/${PROFILE}/output/${BIN}` dir
