@@ -12,10 +12,11 @@ source "${HERE}"/bashtest.sh
 package_bin() {
     rm -rf target/lambda/release > /dev/null 2>&1
     docker run --rm \
+    -u $(id -u):$(id -g) \
     -e BIN="$1" \
     -v "${PWD}":/code \
-    -v "${HOME}"/.cargo/registry:/root/.cargo/registry \
-    -v "${HOME}"/.cargo/git:/root/.cargo/git \
+    -v "${HOME}"/.cargo/registry:/cargo/registry \
+    -v "${HOME}"/.cargo/git:/cargo/git \
     ${IMAGE} && \
     ls target/lambda/release/"${1}".zip > /dev/null 2>&1 &&
     ls target/lambda/release/output/"${1}"/bootstrap 2>&1 &&
@@ -26,9 +27,10 @@ package_bin() {
 package_all() {
     rm -rf target/lambda/release > /dev/null 2>&1
     docker run --rm \
+    -u $(id -u):$(id -g) \
     -v "${PWD}":/code \
-    -v "${HOME}"/.cargo/registry:/root/.cargo/registry \
-    -v "${HOME}"/.cargo/git:/root/.cargo/git \
+    -v "${HOME}"/.cargo/registry:/cargo/registry \
+    -v "${HOME}"/.cargo/git:/cargo/git \
     ${IMAGE} && \
     ls target/lambda/release/"${1}".zip > /dev/null 2>&1 &&
     ls target/lambda/release/output/"${1}"/bootstrap 2>&1 &&
@@ -39,10 +41,11 @@ package_all() {
 compile_without_packaging() {
     rm -rf target/lambda/release > /dev/null 2>&1
     docker run --rm \
+    -u $(id -u):$(id -g) \
     -e PACKAGE=false \
     -v "${PWD}":/code \
-    -v "${HOME}"/.cargo/registry:/root/.cargo/registry \
-    -v "${HOME}"/.cargo/git:/root/.cargo/git \
+    -v "${HOME}"/.cargo/registry:/cargo/registry \
+    -v "${HOME}"/.cargo/git:/cargo/git \
     ${IMAGE} &&
     !(ls target/lambda/release/"${1}".zip > /dev/null 2>&1) &&
     ls target/lambda/release/output/"${1}"/bootstrap 2>&1 &&
@@ -53,10 +56,11 @@ compile_without_packaging() {
 package_all_dev_profile() {
     rm -rf target/lambda/debug > /dev/null 2>&1
     docker run --rm \
+    -u $(id -u):$(id -g) \
     -e PROFILE=dev \
     -v "${PWD}":/code \
-    -v "${HOME}"/.cargo/registry:/root/.cargo/registry \
-    -v "${HOME}"/.cargo/git:/root/.cargo/git \
+    -v "${HOME}"/.cargo/registry:/cargo/registry \
+    -v "${HOME}"/.cargo/git:/cargo/git \
     ${IMAGE} && \
     ls target/lambda/debug/"${1}".zip > /dev/null 2>&1 &&
     ls target/lambda/release/output/"${1}"/bootstrap 2>&1 &&
@@ -86,7 +90,7 @@ for project in test-func test-multi-func test-func-with-hooks; do
     rm -f output.log > /dev/null 2>&1
     rm -f test-out.log > /dev/null 2>&1
     rm -rf /tmp/lambda > /dev/null 2>&1
-    unzip -o  \
+    unzip -o \
         target/lambda/release/"${bin_name}".zip \
         -d /tmp/lambda > /dev/null 2>&1 && \
     docker run \

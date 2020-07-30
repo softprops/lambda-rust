@@ -16,8 +16,9 @@ test: build
 
 debug: build
 	@docker run --rm -it \
+		-u $(id -u):$(id -g) \
 		-v ${PWD}:/code \
-		-v ${HOME}/.cargo/registry:/root/.cargo/registry \
-		-v ${HOME}/.cargo/git:/root/.cargo/git  \
+		-v ${HOME}/.cargo/registry:/cargo/registry \
+		-v ${HOME}/.cargo/git:/cargo/git  \
 		--entrypoint=/bin/bash \
 		$(REPO)

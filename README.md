@@ -41,22 +41,33 @@ A typical docker run might look like the following.
 
 ```sh
 $ docker run --rm \
+    -u $(id -u):$(id -g) \
     -v ${PWD}:/code \
-    -v ${HOME}/.cargo/registry:/root/.cargo/registry \
-    -v ${HOME}/.cargo/git:/root/.cargo/git \
+    -v ${HOME}/.cargo/registry:/cargo/registry \
+    -v ${HOME}/.cargo/git:/cargo/git \
     softprops/lambda-rust
 ```
-> 💡 The -v (volume mount) flags for `/root/.cargo/{registry,git}` are optional but when supplied, provides a much faster turn around when doing iterative development
+> 💡 The -v (volume mount) flags for `/cargo/{registry,git}` are optional but when supplied, provides a much faster turn around when doing iterative development
+
+Note that `-u $(id -u):$(id -g)` argument is crucial for the container to produce artifacts
+owned by the current host user, otherwise you won't be able to `rm -rf target/lambda`
+or run `cargo update`, because the container will write artifacts owned by `root` docker user
+to `target/lambda` and `./cargo/{registry,git}` dirs which will break your dev and/or ci environment.
+
+You should also ensure that you do have `${HOME}/.cargo/{registry,git}` dirs created
+on your host machine, otherwise docker will create them automatically and assign `root` user
+as an owner for these dirs which is unfortunate...
 
 If you are using Windows, the command above may need to be modified to include
 a `BIN` environment variable set to the name of the binary to be build and packaged
 
-```sh
+```diff
 $ docker run --rm \
-    -e BIN={your-binary-name} \
+    -u $(id -u):$(id -g) \
++   -e BIN={your-binary-name} \
     -v ${PWD}:/code \
-    -v ${HOME}/.cargo/registry:/root/.cargo/registry \
-    -v ${HOME}/.cargo/git:/root/.cargo/git \
+    -v ${HOME}/.cargo/registry:/cargo/registry \
+    -v ${HOME}/.cargo/git:/cargo/git \
     softprops/lambda-rust
 ```
 
@@ -65,10 +76,11 @@ This can be especially useful when using path dependencies for local crates.
 
 ```sh
 $ docker run --rm \
+    -u $(id -u):$(id -g) \
     -v ${PWD}/lambdas/mylambda:/code/lambdas/mylambda \
     -v ${PWD}/libs/mylib:/code/libs/mylib \
-    -v ${HOME}/.cargo/registry:/root/.cargo/registry \
-    -v ${HOME}/.cargo/git:/root/.cargo/git \
+    -v ${HOME}/.cargo/registry:/cargo/registry \
+    -v ${HOME}/.cargo/git:/cargo/git \
     -w /code/lambdas/mylambda \
     softprops/lambda-rust
 ```
@@ -102,11 +114,12 @@ You can then invoke this bootstap executable with the lambda-ci docker image for
 # Build your function skipping the zip creation step
 # You may pass `-e PROFILE=dev` to build using dev profile, but here we use `release`
 docker run \
+    -u $(id -u):$(id -g) \
     -e PACKAGE=false \
     -e BIN={your-binary-name} \
     -v ${PWD}:/code \
-    -v ${HOME}/.cargo/registry:/root/.cargo/registry \
-    -v ${HOME}/.cargo/git:/root/.cargo/git \
+    -v ${HOME}/.cargo/registry:/cargo/registry \
+    -v ${HOME}/.cargo/git:/cargo/git \
     softprops/lambda-rust
 
 # start a one-off docker container replicating the "provided" lambda runtime
