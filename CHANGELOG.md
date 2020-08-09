@@ -1,3 +1,19 @@
+# 0.4.0-rust-1.45.2
+
+* **Breaking change** in avoid mixed user permissions when volume mounting cargo cache directories. This docker images now configures a cargo installation to `/cargo` directory rather than `/home/root/.cargo`. You'll also want to ensure
+docker runs use a docker user that maps to your host machine's user id and group.
+
+```diff
+$ docker run --rm \
++    -u $(id -u):$(id -g) \
+    -v ${PWD}:/code \
++    -v ${HOME}/.cargo/registry:/cargo/registry \
++    -v ${HOME}/.cargo/git:/cargo/git \
+    softprops/lambda-rust
+```
+
+* Upgrade to Rust [`1.45.2`](https://blog.rust-lang.org/2020/08/03/Rust-1.45.2.html)
+
 # 0.3.0-rust-1.45.0
 
 * Upgrade to Rust [`1.45.0`](https://blog.rust-lang.org/2020/07/16/Rust-1.45.0.html)
