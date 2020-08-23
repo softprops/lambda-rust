@@ -86,7 +86,7 @@ for project in test-func test-multi-func test-func-with-hooks; do
 
     assert "it packages all bins" package_all "${bin_name}"
 
-    # verify packaged artifact by invoking it using the lambdaci "provided" docker image
+    # verify packaged artifact by invoking it using the lambdaci "provided.al2" docker image
     rm -f output.log > /dev/null 2>&1
     rm -f test-out.log > /dev/null 2>&1
     rm -rf /tmp/lambda > /dev/null 2>&1
@@ -97,7 +97,7 @@ for project in test-func test-multi-func test-func-with-hooks; do
         -i -e DOCKER_LAMBDA_USE_STDIN=1 \
         --rm \
         -v /tmp/lambda:/var/task \
-        lambci/lambda:provided < test-event.json | grep -v RequestId | grep -v '^\W*$' > test-out.log
+        lambci/lambda:provided.al2 < test-event.json | grep -v RequestId | grep -v '^\W*$' > test-out.log
 
     assert "when invoked, it produces expected output" diff expected-output.json test-out.log
 done

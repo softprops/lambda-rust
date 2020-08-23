@@ -3,7 +3,7 @@
 
 ## 🤔 about
 
-This docker image extends [lambda ci `provided`](https://github.com/lambci/docker-lambda#documentation) builder docker image, a faithful reproduction of the actual AWS "**provided**" Lambda runtime environment,
+This docker image extends [lambda ci `provided.al2`](https://github.com/lambci/docker-lambda#documentation) builder docker image, a faithful reproduction of the actual AWS "**provided.al2**" Lambda runtime environment,
 and installs [rustup](https://rustup.rs/) and the *stable* rust toolchain.
 
 This provides a build environment, consistent with your target execution environment for predictable results.
@@ -99,7 +99,7 @@ You can take a look at an example [here](./tests/test-func-with-hooks).
 
 ## 🔬 local testing
 
-Once you've built a Rust lambda function artifact, the `provided` runtime expects
+Once you've built a Rust lambda function artifact, the `provided.al2` runtime expects
 deployments of that artifact to be named "**bootstrap**". The `lambda-rust` docker image
 builds a zip file, named after the binary, containing your binary file renamed to "bootstrap" for you, but zip file creation is unnecessary for local development.
 
@@ -108,7 +108,7 @@ output (not zipped) is available under `target/lambda/{profile}/output/{your-lam
 You will see both `bootstrap` and `bootstrap.debug` files there.
 > **⚠️ Note:** `PACKAGE=false` prevents `package` hook from running.
 
-You can then invoke this bootstap executable with the lambda-ci docker image for the `provided` AWS lambda runtime with a one off container.
+You can then invoke this bootstap executable with the lambda-ci docker image for the `provided.al2` AWS lambda runtime with a one off container.
 
 ```sh
 # Build your function skipping the zip creation step
@@ -122,13 +122,13 @@ docker run \
     -v ${HOME}/.cargo/git:/cargo/git \
     softprops/lambda-rust
 
-# start a one-off docker container replicating the "provided" lambda runtime
+# start a one-off docker container replicating the "provided.al2" lambda runtime
 # awaiting an event to be provided via stdin
 $ docker run \
     -i -e DOCKER_LAMBDA_USE_STDIN=1 \
     --rm \
     -v ${PWD}/target/lambda/release/output/{your-binary-name}:/var/task:ro,delegated \
-    lambci/lambda:provided
+    lambci/lambda:provided.al2
 
 # provide an event payload via stdin (typically a json blob)
 
@@ -148,7 +148,7 @@ $ unzip -o \
     -v /tmp/lambda:/var/task:ro,delegated \
     -e DOCKER_LAMBDA_STAY_OPEN=1 \
     -p 9001:9001 \
-    lambci/lambda:provided
+    lambci/lambda:provided.al2
 ```
 
 In a separate terminal, you can invoke your function with `curl`

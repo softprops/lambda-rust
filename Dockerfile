@@ -1,5 +1,6 @@
 # https://github.com/lambci/docker-lambda#documentation
-FROM lambci/lambda:build-provided
+FROM lambci/lambda:build-provided.al2
+
 ARG RUST_VERSION=1.45.2
 RUN yum install -y jq
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
