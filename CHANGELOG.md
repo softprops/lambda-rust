@@ -14,6 +14,8 @@ $ docker run --rm \
 
 * Upgrade to Rust [`1.45.2`](https://blog.rust-lang.org/2020/08/03/Rust-1.45.2.html)
 
+* Upgrade to [amazon linux 2](https://aws.amazon.com/blogs/compute/migrating-aws-lambda-functions-to-al2/) base
+
 # 0.3.0-rust-1.45.0
 
 * Upgrade to Rust [`1.45.0`](https://blog.rust-lang.org/2020/07/16/Rust-1.45.0.html)
