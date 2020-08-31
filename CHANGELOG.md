@@ -1,3 +1,43 @@
+# 0.4.0-rust-1.45.2
+
+* **Breaking change** in avoid mixed user permissions when volume mounting cargo cache directories. This docker images now configures a cargo installation to `/cargo` directory rather than `/home/root/.cargo`. You'll also want to ensure
+docker runs use a docker user that maps to your host machine's user id and group.
+
+```diff
+$ docker run --rm \
++    -u $(id -u):$(id -g) \
+    -v ${PWD}:/code \
++    -v ${HOME}/.cargo/registry:/cargo/registry \
++    -v ${HOME}/.cargo/git:/cargo/git \
+    softprops/lambda-rust
+```
+
+* Upgrade to Rust [`1.45.2`](https://blog.rust-lang.org/2020/08/03/Rust-1.45.2.html)
+
+* Upgrade to [amazon linux 2](https://aws.amazon.com/blogs/compute/migrating-aws-lambda-functions-to-al2/) base
+
+# 0.3.0-rust-1.45.0
+
+* Upgrade to Rust [`1.45.0`](https://blog.rust-lang.org/2020/07/16/Rust-1.45.0.html)
+
+# 0.3.0-rust-1.44.1
+
+* Put unzipped `boostrap` and `bootstrap.debug` files under `target/lambda/${PROFILE}/output/${BIN}` dir
+to allow for using these artifacts without an intermediate `.zip` file creation step.
+* Introduce `$PACKAGE` env var. Setting `-e PACKAGE=false` prevents `.zip` archive from
+being created and `package` hook from running.
+
+# 0.2.7-rust-1.44.1
+
+* Upgrade to Rust [`1.44.1`](https://blog.rust-lang.org/2020/06/18/Rust.1.44.1.html)
+
+# 0.2.7-rust-1.44.0
+
+* Upgrade to Rust [`1.44.0`](https://blog.rust-lang.org/2020/06/04/Rust-1.44.0.html)
+
+# 0.2.7-rust-1.43.1
+
+* Upgrade to Rust [`1.43.1`](https://blog.rust-lang.org/2020/05/07/Rust.1.43.1.html)
 # 0.2.7-rust-1.43.0
 
 * Upgrade to Rust [`1.43.0`](https://blog.rust-lang.org/2020/04/23/Rust-1.43.0.html)

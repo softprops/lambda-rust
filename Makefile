@@ -1,5 +1,5 @@
-VERSION ?= 0.2.7
-RUST_VERSION ?= 1.43.0
+VERSION ?= 0.4.0
+RUST_VERSION ?= 1.45.2
 REPO ?= softprops/lambda-rust
 TAG ?= "$(REPO):$(VERSION)-rust-$(RUST_VERSION)"
 
@@ -16,8 +16,9 @@ test: build
 
 debug: build
 	@docker run --rm -it \
+		-u $(id -u):$(id -g) \
 		-v ${PWD}:/code \
-		-v ${HOME}/.cargo/registry:/root/.cargo/registry \
-		-v ${HOME}/.cargo/git:/root/.cargo/git  \
+		-v ${HOME}/.cargo/registry:/cargo/registry \
+		-v ${HOME}/.cargo/git:/cargo/git  \
 		--entrypoint=/bin/bash \
 		$(REPO)
