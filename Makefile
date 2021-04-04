@@ -1,5 +1,5 @@
 VERSION ?= 0.4.0
-RUST_VERSION ?= 1.45.2
+RUST_VERSION ?= 1.51.0
 REPO ?= softprops/lambda-rust
 TAG ?= "$(REPO):$(VERSION)-rust-$(RUST_VERSION)"
 
