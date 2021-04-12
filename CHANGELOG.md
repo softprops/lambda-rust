@@ -1,3 +1,7 @@
+# 0.4.0-rust-1.51.0
+
+* Update to Rust [`1.51.0`](https://blog.rust-lang.org/2021/03/25/Rust-1.51.0.html)
+
 # 0.4.0-rust-1.45.2
 
 * **Breaking change** in avoid mixed user permissions when volume mounting cargo cache directories. This docker images now configures a cargo installation to `/cargo` directory rather than `/home/root/.cargo`. You'll also want to ensure
