@@ -5,6 +5,8 @@ TAG ?= "$(REPO):$(VERSION)-rust-$(RUST_VERSION)"
 
 publish: build
 	@docker push $(TAG)
+
+publish-latest: build
 	@docker push $(REPO):latest
 
 build:
