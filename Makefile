@@ -1,16 +1,16 @@
 DOCKER ?= docker
-VERSION ?= 0.4.0
 RUST_VERSION ?= 1.54.0
 REPO ?= rustserverless/lambda-rust
-TAG ?= "$(REPO):$(VERSION)-rust-$(RUST_VERSION)"
 
 publish: build
-	$(DOCKER) push $(TAG)
 	$(DOCKER) push $(REPO):latest
 
+publish-tag: build publish
+	$(DOCKER) tag $(REPO):latest "$(REPO):$(INPUT_RELEASE_VERSION)-rust-$(RUST_VERSION)"
+	$(DOCKER) push "$(REPO):$(INPUT_RELEASE_VERSION)-rust-$(RUST_VERSION)"
+
 build:
-	$(DOCKER) build --build-arg RUST_VERSION=$(RUST_VERSION) -t $(TAG) .
-	$(DOCKER) tag $(TAG) $(REPO):latest
+	$(DOCKER) build --build-arg RUST_VERSION=$(RUST_VERSION) -t $(REPO):latest .
 
 test:
 	@tests/test.sh

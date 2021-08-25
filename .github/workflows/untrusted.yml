@@ -1,0 +1,14 @@
+name: Untrusted workflows (PRs)
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Test
+        run: make test

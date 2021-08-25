@@ -1,0 +1,33 @@
+name: Release publishing
+
+on:
+  release:
+    types:
+     - published
+
+jobs:
+  publish-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Update Docker hub metadata
+        uses: docker://mpepping/docker-hub-metadata-github-action
+        env:
+          IMAGE: rustserverless/lambda-rust
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        continue-on-error: true
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Build
+        shell: bash
+        run: make build
+      - name: Publish
+        shell: bash
+        with:
+          release_tag: ${{ github.event.release.tag_name }}
+        run: |
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+          make publish-tag
