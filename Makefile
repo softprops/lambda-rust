@@ -1,5 +1,5 @@
 DOCKER ?= docker
-RUST_VERSION ?= 1.54.0
+RUST_VERSION ?= 1.55.0
 REPO ?= rustserverless/lambda-rust
 
 publish: build
