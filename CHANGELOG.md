@@ -1,3 +1,7 @@
+# 0.4.0-rust-1.55.0
+
+* Upgrade to Rust [`1.55.0`](https://blog.rust-lang.org/2021/09/09/Rust-1.55.0.html)
+
 # 0.4.0-rust-1.54.0
 
 * Upgrade to Rust [`1.54.0`](https://blog.rust-lang.org/2021/07/29/Rust-1.54.0.html)
