@@ -17,6 +17,9 @@ jobs:
     needs: check
     if: always() && (needs.check.result == 'failure')
     steps:
+      - run: gh repo clone lambda-rust
+        env: 
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - run: gh issue create --title "Time to update to Rust" --body "Build update for next version of Rust"
         env: 
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
