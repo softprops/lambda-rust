@@ -9,7 +9,7 @@ jobs:
   check:
     runs-on: ubuntu-latest
     outputs:
-      stable: ${{ steps.rust.outputs.stable }}
+      stable: ${{ steps.rust.outputs.stable_rust }}
     steps:
       - uses: actions/checkout@v2
       - id: rust
