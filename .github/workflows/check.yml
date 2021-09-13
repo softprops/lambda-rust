@@ -1,8 +1,8 @@
-name: Main
+name: Check
 
 on:
   schedule:
-      - cron "0 4 * * 3"
+    - cron "0 4 * * 3"
 
 jobs:
   check:
