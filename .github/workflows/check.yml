@@ -26,7 +26,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_COMMIT_SHA: ${{ github.sha }}
-          GITHUB_REPO_OWNER: 'bryan-nice'
-          GITHUB_REPO_NAME: 'github-issue-creation'
+          GITHUB_REPO_OWNER: 'jerusdp'
+          GITHUB_REPO_NAME: 'lambda-rust'
           GITHUB_ISSUE_TITLE: 'Demo''ing Git Issue Creation'
           GITHUB_ISSUE_BODY: 'Demo''ing Git Issue Creation'
