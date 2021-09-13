@@ -1,0 +1,13 @@
+name: Check
+
+on:
+  schedule:
+    - cron: '0 4 * * 3'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Check Rust Version
+        run: make check
