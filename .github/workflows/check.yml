@@ -8,9 +8,12 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
+    outputs:
+      stable: ${{ steps.rust.outputs.stable }}
     steps:
-      - uses: actions/checkout@v1
-      - name: Check Rust Version
+      - uses: actions/checkout@v2
+      - id: rust
+        name: Check Rust Version
         run: make check
       outputs:
       stable: ${{ steps.rust.outputs.stable }}
