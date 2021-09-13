@@ -21,10 +21,12 @@ jobs:
     if: always() && (needs.check.result == 'failure')
     steps:
       - uses: actions/checkout@v2
-      - uses: nashmaniac/create-issue-action@v1.1
-        name: Create Issue Action
-        with:
-          title: Build Failed
-          token: ${{secrets.GITHUB_TOKEN}}
-          labels: rust-check-failed
-          body: Update to rust stable version {{needs.check.output.stable}}
+      - name: Create Issue 
+        uses: bryannice/gitactions-git-issue-creation@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_COMMIT_SHA: ${{ github.sha }}
+          GITHUB_REPO_OWNER: 'bryan-nice'
+          GITHUB_REPO_NAME: 'github-issue-creation'
+          GITHUB_ISSUE_TITLE: 'Demo''ing Git Issue Creation'
+          GITHUB_ISSUE_BODY: 'Demo''ing Git Issue Creation'
