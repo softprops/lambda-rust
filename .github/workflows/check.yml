@@ -8,8 +8,11 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
+    outputs:
+      stable_rust: ${{ steps.check-rust.outputs.stable }}
     steps:
       - uses: actions/checkout@v1
+      - id: check-rust
       - name: Check Rust Version
         run: make check
   create_issue:
@@ -23,4 +26,4 @@ jobs:
           title: Build Failed
           token: ${{secrets.GITHUB_TOKEN}}
           labels: rust-check-failed
-          body: Update to rust stable version need.check.output.stable
+          body: Update to rust stable version {{needs.check.output.stable_rust}}
