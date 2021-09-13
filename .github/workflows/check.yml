@@ -8,11 +8,8 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
-    outputs:
-      stable: ${{ steps.rust.outputs.stable_rust }}
     steps:
       - uses: actions/checkout@v2
-      - id: rust
         name: Check Rust Version
         run: make check
   create_issue:
@@ -20,10 +17,4 @@ jobs:
     needs: check
     if: always() && (needs.check.result == 'failure')
     steps:
-      - uses: nashmaniac/create-issue-action@v1.1
-        name: Create Issue Action
-        with:
-          title: Time to update to Rust v${{ needs.check.output.stable }}
-          token: ${{secrets.GITHUB_TOKEN}}
-          labels: rust-check-failed
-          body: Update to rust stable version ${{ needs.check.output.stable }}
+      - run: gh issue create --title "Time to update to Rust" --body "Build update for next version of Rust"
