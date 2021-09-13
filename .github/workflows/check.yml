@@ -23,7 +23,7 @@ jobs:
       - uses: nashmaniac/create-issue-action@v1.1
         name: Create Issue Action
         with:
-          title: Build Failed
+          title: Time to update to Rust v${{ needs.check.output.stable }}
           token: ${{secrets.GITHUB_TOKEN}}
           labels: rust-check-failed
           body: Update to rust stable version ${{ needs.check.output.stable }}
