@@ -23,4 +23,4 @@ jobs:
           title: Build Failed
           token: ${{secrets.GITHUB_TOKEN}}
           labels: rust-check-failed
-          body: Update to rust stable version ${{ check.output.stable }}
+          body: Update to rust stable version ${{ need.check.output.stable }}
