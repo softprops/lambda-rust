@@ -9,10 +9,10 @@ jobs:
   check:
     runs-on: ubuntu-latest
     outputs:
-      stable_rust: ${{ steps.check-rust.outputs.stable }}
+      stable: ${{ steps.rust.outputs.stable }}
     steps:
       - uses: actions/checkout@v1
-      - id: check-rust
+      - id: rust
       - name: Check Rust Version
         run: make check
   create_issue:
@@ -20,10 +20,11 @@ jobs:
     needs: check
     if: always() && (needs.check.result == 'failure')
     steps:
+      - uses: actions/checkout@master
       - uses: nashmaniac/create-issue-action@v1.1
         name: Create Issue Action
         with:
           title: Build Failed
           token: ${{secrets.GITHUB_TOKEN}}
           labels: rust-check-failed
-          body: Update to rust stable version {{needs.check.output.stable_rust}}
+          body: Update to rust stable version {{needs.check.output.stable}}
