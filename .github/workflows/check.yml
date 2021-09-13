@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         name: Check Rust Version
-        run: make check
+      - run: make check
   create_issue:
     runs-on: ubuntu-latest
     needs: check
