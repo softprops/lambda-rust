@@ -15,13 +15,6 @@ jobs:
       - id: rust
         name: Check Rust Version
         run: make check
-      outputs:
-      stable: ${{ steps.rust.outputs.stable }}
-    steps:
-      - uses: actions/checkout@v2
-      - id: rust
-        name: Check Rust Version
-        run: make check
   create_issue:
     runs-on: ubuntu-latest
     needs: check
