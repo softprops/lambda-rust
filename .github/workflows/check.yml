@@ -15,7 +15,7 @@ jobs:
   create_issue:
     runs-on: ubuntu-latest
     needs: check
-    if: needs.check.result == 'failure'
+    if: always() && (needs.check.result == 'failure')
     steps:
       - uses: nashmaniac/create-issue-action@v1.1
         name: Create Issue Action
