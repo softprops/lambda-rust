@@ -18,6 +18,6 @@ jobs:
     if: always() && (needs.check.result == 'failure')
     steps:
       - uses: actions/checkout@v2
-      - run: gh issue create --title "Time to update to Rust" --body "Build update for next version of Rust" --label update-rust-version
+      - run: gh issue create --title "Time to update to Rust" --body "Build update for next version of Rust" --label enhancement
         env: 
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
