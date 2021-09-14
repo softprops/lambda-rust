@@ -1,7 +1,7 @@
 DOCKER ?= docker
 INPUT_RELEASE_VERSION ?= 0.4.0
-RUST_VERSION ?= 1.54.0
-REPO ?= jerusdp/lambda-rust
+RUST_VERSION ?= 1.55.0
+REPO ?= rustserverless/lambda-rust
 
 publish: build
 	$(DOCKER) push $(REPO):latest
