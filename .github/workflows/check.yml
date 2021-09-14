@@ -17,6 +17,6 @@ jobs:
     needs: check
     if: always() && (needs.check.result == 'failure')
     steps:
-      - run: gh issue create --title "Time to update to Rust" --body "Build update for next version of Rust" --label "enhancement" - R $GITHUB_REPOSITORY
+      - run: gh issue create --title "Time to update to Rust" --body "Build update for next version of Rust" --label "enhancement" -R $GITHUB_REPOSITORY
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
