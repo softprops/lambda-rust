@@ -1,6 +1,7 @@
 name: Check
 
 on:
+  workflow-dispatch:
   schedule:
     - cron: '0 4 * * 3'
 
@@ -8,6 +9,14 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Check Rust Version
-        run: make check
+      - uses: actions/checkout@v2
+        name: Check Rust Version
+      - run: make check
+  create_issue:
+    runs-on: ubuntu-latest
+    needs: check
+    if: always() && (needs.check.result == 'failure')
+    steps:
+      - run: gh issue create --title "Time to update to Rust" --body "Build update for next version of Rust" --label "enhancement" - R $GITHUB_REPOSITORY
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
