@@ -37,7 +37,7 @@ jobs:
         run: make test
   publish:
     needs: [scan, test]
-    if: github.repository == 'rustserverless/lambda-rust'
+    if: github.repository == 'rust-serverless/lambda-rust'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
