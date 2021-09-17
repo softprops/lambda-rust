@@ -6,6 +6,26 @@ on:
       - master
 
 jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build
+      env:
+        REPO: ${{ github.repository }}
+      shell: bash
+      run: |
+        echo "docker_repo=${{ env.REPO }}" >> $GITHUB_ENV
+        make build
+    - name: Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@0.0.20
+      with:
+        image-ref: '${{ env.docker_repo }}:latest'
+        format: 'table'
+        exit-code: '1'
+        ignore-unfixed: true
+        vuln-type: 'os,library'
+        severity: 'CRITICAL,HIGH'
   test:
     runs-on: ubuntu-latest
     steps:
