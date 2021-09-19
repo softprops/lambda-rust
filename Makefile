@@ -24,3 +24,7 @@ debug: build
 		-v ${HOME}/.cargo/git:/cargo/git  \
 		--entrypoint=/bin/bash \
 		$(REPO)
+
+nightly: 
+	$(DOCKER) build --build-arg RUST_VERSION=nightly -t $(REPO):nightly .
+	$(DOCKER) push $(REPO):nightly
