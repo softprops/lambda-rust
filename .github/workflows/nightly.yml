@@ -1,0 +1,22 @@
+name: Build Nightly Rust
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 2 * * 3'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        name: Build Nightly Rust
+      - run: make nightly
+  create_issue:
+    runs-on: ubuntu-latest
+    needs: check
+    if: always() && (needs.publish.result == 'failure')
+    steps:
+      - run: gh issue create --title "Nightly publication failed" --body "Nightly publication failed" --label "bug" -R $GITHUB_REPOSITORY
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
