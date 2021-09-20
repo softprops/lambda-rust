@@ -10,7 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: make test
+      - run: |
+             make build
+             make test
         env:
           RUST_VERSION: nightly
           TAG: nightly
