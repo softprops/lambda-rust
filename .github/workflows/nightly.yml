@@ -14,6 +14,7 @@ jobs:
         env:
           RUST_VERSION: nightly
           TAG: nightly
+          IMAGE: 'rustserverless/lambda-rust:nightly'
   publish:
     needs: [test]
     if: github.repository == 'rust-serverless/lambda-rust'
