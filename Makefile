@@ -25,3 +25,8 @@ debug: build
 		-v ${HOME}/.cargo/git:/cargo/git  \
 		--entrypoint=/bin/bash \
 		$(REPO):$(TAG)
+
+check: 
+	$(DOCKER) run --rm \
+		--entrypoint=/usr/local/bin/latest.sh \
+		$(REPO)
