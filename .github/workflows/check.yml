@@ -20,3 +20,4 @@ jobs:
       - run: gh issue create --title "Time to update to Rust" --body "Build update for next version of Rust" --label "enhancement" -R $GITHUB_REPOSITORY
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          
