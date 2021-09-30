@@ -1,3 +1,4 @@
 tests/test-*/test-out.log
 target
 .DS_Store
+.vscode
