@@ -4,41 +4,47 @@ on:
   push:
     branches:
       - master
-    tags:
-      - 'v**'
-  pull_request:
-    branches:
-      - master
 
 jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build
+      env:
+        REPO: ${{ github.repository }}
+      shell: bash
+      run: |
+        echo "docker_repo=${{ env.REPO }}" >> $GITHUB_ENV
+        make build
+    - name: Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@0.0.20
+      with:
+        image-ref: '${{ env.docker_repo }}:latest'
+        format: 'table'
+        exit-code: '1'
+        ignore-unfixed: true
+        vuln-type: 'os,library'
+        severity: 'CRITICAL,HIGH'
   test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: Test
-        run: make test
-  publish-docs:
-    needs: [test]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: Update Docker hub metadata
-        uses: docker://mpepping/docker-hub-metadata-github-action
-        env:
-          IMAGE: ${{ github.repository }}
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        continue-on-error: true
-  publish:
-    needs: [test]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
       - name: Build
         shell: bash
         run: make build
-      - name: Publish
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: Test
+        run: make test
+  publish:
+    needs: [scan, test]
+    if: github.repository == 'rust-serverless/lambda-rust'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Build
+        shell: bash
+        run: make build
+      - name: Publish Latest
         shell: bash
         run: |
           echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin

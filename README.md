@@ -1,4 +1,4 @@
-# AWS Lambda [Rust](https://www.rust-lang.org/) docker builder 🐑 🦀 🐳 [![Build Status](https://github.com/softprops/lambda-rust/workflows/Main/badge.svg)](https://github.com/softprops/lambda-rust/actions)
+# AWS Lambda [Rust](https://www.rust-lang.org/) docker builder 🐑 🦀 🐳 [![Build Status](https://github.com/rust-serverless/lambda-rust/workflows/Main/badge.svg)](https://github.com/rust-serverless/lambda-rust/actions)
 
 
 ## 🤔 about
@@ -10,14 +10,14 @@ This provides a build environment, consistent with your target execution environ
 
 ## 📦 install
 
-Tags for this docker image follow the naming convention `softprops/lambda-rust:{version}-rust-{rust-stable-version}`
+Tags for this docker image follow the naming convention `rustserverless/lambda-rust:{version}-rust-{rust-stable-version}`
 where `{rust-stable-version}` is a stable version of rust.
 
-You can find a list of available docker tags [here](https://hub.docker.com/r/softprops/lambda-rust/tags)
+You can find a list of available docker tags [here](https://hub.docker.com/r/rustserverless/lambda-rust/tags)
 
-> 💡 If you don't find the version you're looking for, please [open a new github issue](https://github.com/softprops/lambda-rust/issues/new?title=I%27m%20looking%20for%20version%20xxx) to publish one
+> 💡 If you don't find the version you're looking for, please [open a new github issue](https://github.com/rust-serverless/lambda-rust/issues/new?title=I%27m%20looking%20for%20version%20xxx) to publish one
 
-You can also depend directly on `softprops/lambda-rust:latest` for the most recently published version.
+You can also depend directly on `rustserverless/lambda-rust:latest` for the most recently published version.
 
 ## 🤸 usage
 
@@ -45,7 +45,7 @@ $ docker run --rm \
     -v ${PWD}:/code \
     -v ${HOME}/.cargo/registry:/cargo/registry \
     -v ${HOME}/.cargo/git:/cargo/git \
-    softprops/lambda-rust
+    rustserverless/lambda-rust
 ```
 > 💡 The -v (volume mount) flags for `/cargo/{registry,git}` are optional but when supplied, provides a much faster turn around when doing iterative development
 
@@ -68,7 +68,7 @@ $ docker run --rm \
     -v ${PWD}:/code \
     -v ${HOME}/.cargo/registry:/cargo/registry \
     -v ${HOME}/.cargo/git:/cargo/git \
-    softprops/lambda-rust
+    rustserverless/lambda-rust
 ```
 
 For more custom codebases, the '-w' argument can be used to override the working directory.
@@ -82,7 +82,7 @@ $ docker run --rm \
     -v ${HOME}/.cargo/registry:/cargo/registry \
     -v ${HOME}/.cargo/git:/cargo/git \
     -w /code/lambdas/mylambda \
-    softprops/lambda-rust
+    rustserverless/lambda-rust
 ```
 
 ## ⚓ using hooks
@@ -120,7 +120,7 @@ docker run \
     -v ${PWD}:/code \
     -v ${HOME}/.cargo/registry:/cargo/registry \
     -v ${HOME}/.cargo/git:/cargo/git \
-    softprops/lambda-rust
+    rustserverless/lambda-rust
 
 # start a one-off docker container replicating the "provided.al2" lambda runtime
 # awaiting an event to be provided via stdin
@@ -197,4 +197,5 @@ $ cargo aws-lambda --help
 More instructions can be found [here](https://github.com/vvilhonen/cargo-aws-lambda).
 
 
-Doug Tangren (softprops) 2020
+Doug Tangren ([softprops](https://github.com/softprops)) 2020, Alexander Zaitsev ([zamazan4ik](https://github.com/zamazan4ik)) 2021
+

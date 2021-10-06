@@ -4,7 +4,7 @@
 HERE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # Root directory of the repository
 DIST=$(cd "$HERE"/..; pwd)
-IMAGE=${1:-softprops/lambda-rust}
+: "${IMAGE:=rustserverless/lambda-rust}"
 
 source "${HERE}"/bashtest.sh
 
