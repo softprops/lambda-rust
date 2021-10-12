@@ -17,6 +17,16 @@ WORKDIR /code
 RUN mkdir -m 700 /root/.ssh
 RUN touch -m 600 /root/.ssh/known_hosts
 RUN ssh-keyscan github.com > /root/.ssh/known_hosts
+
+RUN cd /tmp \
+      && curl --location \
+      https://github.com/mozilla/sccache/releases/download/v0.2.15/sccache-v0.2.15-x86_64-unknown-linux-musl.tar.gz \
+      | tar --extract --gunzip \
+      && chmod a+x sccache-v0.2.15-x86_64-unknown-linux-musl/sccache \
+      && mv sccache-v0.2.15-x86_64-unknown-linux-musl/sccache /usr/local/bin/sccache
+
+ADD /sccache-wrapper.sh /usr/local/bin/
+ENV RUSTC_WRAPPER=sccache-wrapper.sh
 # This is as far as we go here, the rest is done late
 
 ENTRYPOINT ["/usr/local/bin/build.sh"]

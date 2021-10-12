@@ -1,5 +1,14 @@
 A fork of https://github.com/softprops/lambda-rust using [Pathlit's changes](https://hub.docker.com/r/pathlit/lambda-rust) (thanks to them both! ❤🦀)
 
+It differs from the upstreams in its inclusion of
+[sccache](https://github.com/mozilla/sccache). To use `sccache` with S3
+when building, supply the following environment vars to `docker run`:
+* `SCCACHE_BUCKET`
+* `SCCACHE_AWS_SECRET_ACCESS_KEY`
+* `SCCACHE_AWS_ACCESS_KEY_ID`
+* `SCCACHE_REGION`
+
+
 # AWS Lambda [Rust](https://www.rust-lang.org/) docker builder 🐑 🦀 🐳 [![Build Status](https://github.com/softprops/lambda-rust/workflows/Main/badge.svg)](https://github.com/softprops/lambda-rust/actions)
 
 
@@ -43,11 +52,15 @@ A typical docker run might look like the following.
 
 ```sh
 $ docker run --rm \
-    -u $(id -u):$(id -g) \
-    -v ${PWD}:/code \
-    -v ${HOME}/.cargo/registry:/cargo/registry \
-    -v ${HOME}/.cargo/git:/cargo/git \
-    softprops/lambda-rust
+    --username $(id -u):$(id -g) \
+    --volume ${PWD}:/code \
+    --volume ${HOME}/.cargo/registry:/cargo/registry \
+    --volume ${HOME}/.cargo/git:/cargo/git \
+    --env SCCACHE_BUCKET \
+    --env SCCACHE_AWS_SECRET_ACCESS_KEY \
+    --env SCCACHE_AWS_ACCESS_KEY_ID \
+    --env SCCACHE_REGION \
+    scoots/lambda-rust
 ```
 > 💡 The -v (volume mount) flags for `/cargo/{registry,git}` are optional but when supplied, provides a much faster turn around when doing iterative development
 
