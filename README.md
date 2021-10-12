@@ -1,3 +1,5 @@
+A fork of https://github.com/softprops/lambda-rust using [Pathlit's changes](https://hub.docker.com/r/pathlit/lambda-rust) (thanks to them both! ❤🦀)
+
 # AWS Lambda [Rust](https://www.rust-lang.org/) docker builder 🐑 🦀 🐳 [![Build Status](https://github.com/softprops/lambda-rust/workflows/Main/badge.svg)](https://github.com/softprops/lambda-rust/actions)
 
 
