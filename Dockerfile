@@ -1,5 +1,4 @@
-# https://github.com/lambci/docker-lambda#documentation
-FROM docker.io/lambci/lambda:build-provided.al2
+FROM public.ecr.aws/lambda/provided:al2
 
 ARG RUST_VERSION=1.54.0
 RUN yum -y update
