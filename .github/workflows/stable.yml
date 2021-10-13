@@ -20,8 +20,17 @@ jobs:
     if: github.repository == 'rust-serverless/lambda-rust'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - run: make publish-tag
+      - name: Checkout the repo
+        uses: actions/checkout@v2
+      - name: Login to Docker hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Publish
+        shell: bash
+        run: |
+          make publish-tag
         env:
           RUST_VERSION: stable
   create_issue:
@@ -32,4 +41,3 @@ jobs:
       - run: gh issue create --title "Stable publication failed" --body "Stable publication failed" --label "bug" -R $GITHUB_REPOSITORY
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          
