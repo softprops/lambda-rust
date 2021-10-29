@@ -2,7 +2,7 @@
 name = "test-func-with-hooks"
 version = "0.1.0"
 authors = ["Bernardo Belchior <bernardo.belchior1@gmail.com>"]
-edition = "2018"
+edition = "2021"
 
 # users don't have to do this
 # but when they do, the builder packaging still work

@@ -2,7 +2,7 @@
 name = "test-func"
 version = "0.1.0"
 authors = ["softprops <d.tangren@gmail.com>"]
-edition = "2018"
+edition = "2021"
 
 # users don't have to do this
 # but when they do, the builder packaging still work

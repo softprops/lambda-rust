@@ -2,7 +2,7 @@
 name = "test-func"
 version = "0.1.0"
 authors = ["softprops <d.tangren@gmail.com>"]
-edition = "2018"
+edition = "2021"
 
 [dependencies]
 lambda_runtime = "0.2"
