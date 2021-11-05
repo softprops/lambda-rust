@@ -108,7 +108,7 @@ output (not zipped) is available under `target/lambda/{profile}/output/{your-lam
 You will see both `bootstrap` and `bootstrap.debug` files there.
 > **⚠️ Note:** `PACKAGE=false` prevents `package` hook from running.
 
-You can then invoke this bootstap executable with the lambda-ci docker image for the `provided.al2` AWS lambda runtime with a one off container.
+You can then invoke this bootstrap executable with the lambda-ci docker image for the `provided.al2` AWS lambda runtime with a one off container.
 
 ```sh
 # Build your function skipping the zip creation step
