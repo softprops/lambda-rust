@@ -3,7 +3,7 @@
 # Directory of the integration test
 HERE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # Root directory of the repository
-DIST=$(cd "$HERE"/..; pwd)
+# DIST=$(cd "$HERE"/..; pwd)
 : "${IMAGE:=rustserverless/lambda-rust}"
 
 source "${HERE}"/bashtest.sh
@@ -68,7 +68,7 @@ package_all_dev_profile() {
 }
 
 for project in test-func test-multi-func test-func-with-hooks; do
-    cd "${HERE}"/"${project}"
+    cd "${HERE}"/"${project}" || exit 2
     echo "👩‍🔬 Running tests for $project with image $IMAGE"
 
     if [[ "$project" == test-multi-func ]]; then
@@ -76,7 +76,7 @@ for project in test-func test-multi-func test-func-with-hooks; do
     else
         bin_name=bootstrap
     fi
-
+    echo "Bin name: ${bin_name} i am in ${PWD}"
     # package tests
     assert "it packages single bins" package_bin "${bin_name}"
 
@@ -97,7 +97,7 @@ for project in test-func test-multi-func test-func-with-hooks; do
         -i -e DOCKER_LAMBDA_USE_STDIN=1 \
         --rm \
         -v /tmp/lambda:/var/task \
-        lambci/lambda:provided.al2 < test-event.json | grep -v RequestId | grep -v '^\W*$' > test-out.log
+        public.ecr.aws/lambda/provided:al2 < test-event.json | grep -v RequestId | grep -v '^\W*$' > test-out.log
 
     assert "when invoked, it produces expected output" diff expected-output.json test-out.log
 done
