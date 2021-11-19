@@ -1,9 +1,8 @@
 # AWS Lambda [Rust](https://www.rust-lang.org/) docker builder 🐑 🦀 🐳 [![Build Status](https://github.com/rust-serverless/lambda-rust/workflows/Main/badge.svg)](https://github.com/rust-serverless/lambda-rust/actions)
 
-
 ## 🤔 about
 
-This docker image extends AWS Lambda `provided.al2 runtime environment, and installs [rustup](https://rustup.rs/) and the *stable* rust toolchain.
+This docker image extends AWS Lambda `provided.al2` runtime environment, and installs [rustup](https://rustup.rs/) and the *stable* rust toolchain.
 
 This provides a build environment, consistent with your target execution environment for predictable results.
 
@@ -24,7 +23,7 @@ The default docker entrypoint will build a packaged release optimized version of
 isolate the lambda specific build artifacts from your host-local build artifacts.
 
 > **⚠️ Note:** you can switch from the `release` profile to a custom profile like `dev` by providing a `PROFILE` environment variable set to the name of the desired profile. i.e. `-e PROFILE=dev` in your docker run
-
+>
 > **⚠️ Note:** you can include debug symbols in optimized release build binaries by setting `DEBUGINFO`. By default, debug symbols will be stripped from the release binary and set aside in a separate .debug file.
 
 You will want to volume mount `/code` to the directory containing your cargo project.
@@ -40,15 +39,16 @@ A typical docker run might look like the following.
 
 ```sh
 $ docker run --rm \
-    -u $(id -u):$(id -g) \
+    -u "$(id -u)":"$(id -g)" \
     -v ${PWD}:/code \
     -v ${HOME}/.cargo/registry:/cargo/registry \
     -v ${HOME}/.cargo/git:/cargo/git \
     rustserverless/lambda-rust
 ```
+
 > 💡 The -v (volume mount) flags for `/cargo/{registry,git}` are optional but when supplied, provides a much faster turn around when doing iterative development
 
-Note that `-u $(id -u):$(id -g)` argument is crucial for the container to produce artifacts
+Note that `-u "$(id -u)":$(id -g)` argument is crucial for the container to produce artifacts
 owned by the current host user, otherwise you won't be able to `rm -rf target/lambda`
 or run `cargo update`, because the container will write artifacts owned by `root` docker user
 to `target/lambda` and `./cargo/{registry,git}` dirs which will break your dev and/or ci environment.
@@ -86,8 +86,9 @@ $ docker run --rm \
 
 ## ⚓ using hooks
 
-If you want to customize certain parts of the build process, you can leverage hooks that this image provides.
-Hooks are just shell scripts that are invoked in a specific order, so you can customize the process as you wish. The following hooks exist:
+You can leverage hooks provided in the image to customize certain parts of the build process.
+Hooks are shell scripts that are invoked if they exist, so you can customize the process. The following hooks exist:
+
 * `install`: run before `cargo build` - useful for installing native dependencies on the lambda environment
 * `build`: run after `cargo build`, but before packaging the executable into a zip - useful when modifying the executable after compilation
 * `package`: run after packaging the executable into a zip - useful for adding extra files into the zip file
@@ -121,56 +122,33 @@ docker run \
     -v ${HOME}/.cargo/git:/cargo/git \
     rustserverless/lambda-rust
 
-# start a one-off docker container replicating the "provided.al2" lambda runtime
-# awaiting an event to be provided via stdin
+# Build a container with your binary as the runtime
+
+$ docker build -t mylambda -f- . <<EOF
+FROM public.ecr.aws/lambda/provided:al2
+COPY bootstrap /var/runtime
+CMD [ "function.handler" ]
+EOF
+
+# start a container based on your image
 $ docker run \
-    -i -e DOCKER_LAMBDA_USE_STDIN=1 \
-    --rm \
-    -v ${PWD}/target/lambda/release/output/{your-binary-name}:/var/task:ro,delegated \
-    public.ecr.aws/lambda/provided:al2
+        --name lambda \
+        --rm \
+        -p 9000:8080 \
+        -d mylambda
 
-# provide an event payload via stdin (typically a json blob)
+# provide an event payload (in event.json" by http POST to the container
 
-# Ctrl-D to yield control back to your function
+$ curl -X POST \
+        -H "Content-Type: application/json" \
+        -d "@event.json" \
+        "http://localhost:9000/2015-03-31/functions/function/invocations"
+
+# Stop the container
+$ docker container stop lambda
 ```
 
-You may find the one-off container less than ideal if you wish to trigger your lambda multiple times. For these cases try using the "stay open" mode of execution.
-
-```sh
-# start a long running docker container replicating the "provided" lambda runtime
-# listening on port 9001
-$ unzip -o \
-    target/lambda/release/{your-binary-name}.zip \
-    -d /tmp/lambda && \
-  docker run \
-    --rm \
-    -v /tmp/lambda:/var/task:ro,delegated \
-    -e DOCKER_LAMBDA_STAY_OPEN=1 \
-    -p 9001:9001 \
-    public.ecr.aws/lambda/provided:al2
-```
-
-In a separate terminal, you can invoke your function with `curl`
-
-The `-d` flag is a means of providing your function's input.
-
-```sh
-$ curl -d '{}' \
-    http://localhost:9001/2015-03-31/functions/myfunction/invocations
-```
-
-You can also use the `aws` cli to invoke your function locally.  The `--payload` is a means of providing your function's input.
-
-```sh
-$ aws lambda invoke \
-    --endpoint http://localhost:9001 \
-    --cli-binary-format raw-in-base64-out \
-    --no-sign-request \
-    --function-name myfunction \
-    --payload '{}' out.json \
-    && cat out.json \
-    && rm -f out.json
-```
+You may submit multiple events to the same container.
 
 ## 🤸🤸 usage via cargo aws-lambda subcommand
 
@@ -184,17 +162,17 @@ $ cargo install cargo-aws-lambda
 ```
 
 To compile and deploy in your project directory
+
 ```sh
 $ cargo aws-lambda {your aws function's full ARN} {your-binary-name}
 ```
 
 To list all options
+
 ```sh
 $ cargo aws-lambda --help
 ```
 
 More instructions can be found [here](https://github.com/vvilhonen/cargo-aws-lambda).
 
-
 Doug Tangren ([softprops](https://github.com/softprops)) 2020, Alexander Zaitsev ([zamazan4ik](https://github.com/zamazan4ik)) 2021
-
