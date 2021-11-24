@@ -3,7 +3,7 @@ name: Build Nightly Rust
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 2 * * 3'
+    - cron: '0 4 * * 3'
 
 jobs:
   test:
