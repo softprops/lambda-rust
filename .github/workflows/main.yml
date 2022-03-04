@@ -10,17 +10,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v1
     - name: Build
       env:
         REPO: ${{ github.repository }}
       shell: bash
       run: |
         echo "docker_repo=${{ env.REPO }}" >> $GITHUB_ENV
-        make build
+        make build && make build-arm64
     - name: Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@0.0.20
       with:
         image-ref: '${{ env.docker_repo }}:latest'
+        format: 'table'
+        exit-code: '1'
+        ignore-unfixed: true
+        vuln-type: 'os,library'
+        severity: 'CRITICAL,HIGH'
+    - name: Trivy vulnerability scanner on arm64 image
+      uses: aquasecurity/trivy-action@0.0.20
+      with:
+        image-ref: '${{ env.docker_repo }}:latest-arm64'
         format: 'table'
         exit-code: '1'
         ignore-unfixed: true
