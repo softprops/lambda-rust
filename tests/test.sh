@@ -2,7 +2,7 @@
 
 # Directory of the integration test
 HERE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-: "${IMAGE:=rustserverless/lambda-rust:latest-arm64}"
+: "${IMAGE:=rustserverless/lambda-rust}"
 
 source "${HERE}"/bashtest.sh
 

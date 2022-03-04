@@ -9,11 +9,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Set up QEMU
+      - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - uses: actions/checkout@v1
       - name: Build
-        run: make build-arm64
+        run: make build && make build-arm64
       - name: Test
         run: make test
