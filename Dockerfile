@@ -1,4 +1,4 @@
-FROM public.ecr.aws/lambda/provided:al2-arm64
+FROM public.ecr.aws/lambda/provided:al2
 
 ARG RUST_VERSION=1.58.1
 RUN yum install -y jq openssl-devel gcc zip
