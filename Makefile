@@ -8,7 +8,7 @@ publish: build
 	$(DOCKER) push $(REPO):${TAG}
 
 publish-arm64: build-arm64
-  $(DOCKER) push $(REPO):${TAG}-arm64
+	$(DOCKER) push $(REPO):${TAG}-arm64
 
 publish-tag: build publish
 	$(DOCKER) tag $(REPO):${TAG} "$(REPO):$(INPUT_RELEASE_VERSION)-rust-$(RUST_VERSION)"
